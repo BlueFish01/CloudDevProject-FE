@@ -6,4 +6,5 @@ export enum COLORS {
     DANGER= '#E8515A',
     LIGHT_GRAY = '#EAEBEF',
     DARK_GRAY = '#D9D9D9',
+    WHITE = '#FFFFFF',
 };

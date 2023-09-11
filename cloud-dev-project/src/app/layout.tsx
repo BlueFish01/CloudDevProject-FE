@@ -1,6 +1,7 @@
-import './styles/globals.css'
+import '@/src/styles/global.css'
 import type { Metadata } from 'next'
 import { JetBrains_Mono } from 'next/font/google'
+import ThemeRegistry from './ThemeRegistry'
 
 const JetBrains = JetBrains_Mono({ subsets: ['latin'] })
 
@@ -16,7 +17,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-        <body className={JetBrains.className}>{children}</body>
+        <body suppressHydrationWarning={true} className={JetBrains.className}>
+          <ThemeRegistry options={{ key: 'mui' }}>
+            {children}
+          </ThemeRegistry>
+        </body>
     </html>
   )
 }

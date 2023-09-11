@@ -1,13 +1,20 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
-import { COLORS } from '@/constants';
+import { COLORS } from '@/constants'
+import { 
+  Container,
+  Button,
+  Box,
+} from '@mui/material';
 
 function page() {
   return (
-    <div>
-      <h1>font here!!</h1>
-      <FontAwesomeIcon icon={faEnvelope} style={{color: COLORS.PRIMARY}}/>
-    </div>
+    <Container>
+      <Box flex={1} height={'100vh'}  display={'flex'} justifyContent={'center'} alignItems={'center'}>
+        <Button variant={"contained"} size={"medium"}>Click Me</Button>
+      </Box>
+      
+    </Container>
   );
 }
 
