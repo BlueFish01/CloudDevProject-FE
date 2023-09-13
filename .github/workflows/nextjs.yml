@@ -61,4 +61,4 @@ jobs:
         run: pnpm install
 
       - name: Build with Next.js
-        run: pmpn run build
+        run: pnpm run build
