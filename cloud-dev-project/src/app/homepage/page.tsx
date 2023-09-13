@@ -6,7 +6,7 @@ import ConfirmDialog from "@/components/Dialog/confirmDialog";
 export default function HomePage() {
     return (
         <ConfirmDialog
-            open={true}
+            open={false}
             onClose={() => { }}
             onConfirm={() => { }}
             onCancel={() => { }}
