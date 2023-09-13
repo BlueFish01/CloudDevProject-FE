@@ -1,0 +1,10 @@
+export enum COLORS {
+    PRIMARY = '#4760B7',
+    PRIMARY_DARK = '#285EC8',
+    PRIMARY_LIGHT = '#AECEF1',
+    SECONDARY = '#7294DF',
+    DANGER= '#E8515A',
+    LIGHT_GRAY = '#EAEBEF',
+    DARK_GRAY = '#D9D9D9',
+    WHITE = '#FFFFFF',
+};
