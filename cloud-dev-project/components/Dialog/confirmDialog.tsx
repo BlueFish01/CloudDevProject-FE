@@ -3,7 +3,6 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogTitle from "@mui/material/DialogTitle";
 import Button, { ButtonPropsColorOverrides } from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
-import { OverridableStringUnion } from "@mui/types";
 import IconButton from "@mui/material/IconButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
