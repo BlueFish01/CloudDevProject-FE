@@ -80,7 +80,7 @@ const ConfirmDialog = (props: IProps) => {
       <DialogTitle
         sx={{ px: 5, pt: 0, pb: 4 }}
         variant="subtitle1"
-        textAlign="center"
+        textAlign="left"
         color={"grey.900"}
         fontWeight={500}
       >
