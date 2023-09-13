@@ -1,24 +1,21 @@
-'use client'
-
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import { COLORS } from '@/constants'
+import { 
+  Container,
+  Button,
+  Box,
+} from '@mui/material';
 
 function page() {
-
-  const router = useRouter()
-
-  const [isLogin, setIsLogin] = useState<boolean>(true)
-
-  if(!isLogin){
-    router.push('/login')
-  }
-
-  router.push('/home')
-  
-  return(
-    <></>
+  return (
+    <Container>
+      <Box flex={1} height={'100vh'}  display={'flex'} justifyContent={'center'} alignItems={'center'}>
+        <Button variant={"contained"} size={"medium"}>Click Me</Button>
+      </Box>
+      
+    </Container>
   );
 }
 
-export default page
+export default page;
