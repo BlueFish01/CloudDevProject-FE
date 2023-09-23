@@ -14,11 +14,13 @@ export default function HomeLayout({
   children: React.ReactNode;
 }) {
   return (
-		<Container maxWidth={false}>
-			<Stack>
-				<NavBar />
-				{children}
-			</Stack>
-		</Container>
-	);
+    <Container maxWidth={false}>
+      <Stack overflow={"auto"} height={"100vh"}>
+        <Stack position={"fixed"} width={"100vw"} top={0} zIndex={999}>
+          <NavBar />
+        </Stack>
+        <Stack paddingTop={"70px"}>{children}</Stack>
+      </Stack>
+    </Container>
+  );
 }
