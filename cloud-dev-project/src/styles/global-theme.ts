@@ -81,18 +81,19 @@ export default createTheme({
     MuiTextField: {
       defaultProps: {
         variant: 'outlined',
+        
       },
       styleOverrides: {
         root: {
-          backgroundColor: COLORS.WHITE,
           borderRadius: '10px',
+          background: COLORS.WHITE,
         }
       }
     },
     MuiOutlinedInput: {
       styleOverrides: {
         root: {
-          borderRadius: '10px'
+          borderRadius: '10px',
         }
       }
     },
