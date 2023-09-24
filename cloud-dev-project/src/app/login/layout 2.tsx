@@ -2,7 +2,11 @@ import { COLORS } from "@/constants";
 import { Container, Button, Box, Grid, Typography, Stack } from "@mui/material";
 import Image from "next/image";
 
-export default function LoginLayout({children,}: {children: React.ReactNode;}) {
+export default function LoginLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <Container maxWidth={false}>
       <Box flex={1} height={"100%"} display={"flex"} overflow={'hidden'}>
