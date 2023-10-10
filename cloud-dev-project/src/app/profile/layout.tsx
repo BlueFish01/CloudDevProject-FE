@@ -13,6 +13,7 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import NavBar from "@/containers/NevBar/NevBar";
+import EditProfileBT from "@/containers/EditProfile/EditProfile";
 
 export default function ProfileLayout({
   children,
@@ -67,9 +68,7 @@ export default function ProfileLayout({
                 Non tellus orci ac auctor augue mauris augue neque gravida. Elit
                 pellentesque habitant morbi tristique.
               </Typography>
-              <Stack flexGrow={1} alignItems={"flex-end"} pr={2} pb={2} pt={5}>
-                <Button variant="outlined">Edit Profile</Button>
-              </Stack>
+              <EditProfileBT />
             </Stack>
           </Stack>
         </Box>
