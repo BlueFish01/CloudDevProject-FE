@@ -57,7 +57,7 @@ const schema = yup.object().shape({
     .string()
     .min(2, "Too Short!")
     .max(50, "Too Long!")
-    .matches(/^[a-zA-Z ]*$/, "MUST_BE_CHARACTER")
+    .matches(/^[a-zA-Z | ,]*$/, "MUST_BE_CHARACTER")
     .required("Required!"),
   IG: yup.string(),
   Discord: yup.string(),
