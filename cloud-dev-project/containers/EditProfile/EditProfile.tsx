@@ -35,6 +35,13 @@ const schema = yup.object().shape({
     .string()
     .min(2, "Too Short!")
     .max(50, "Too Long!")
+    .matches(/^[a-zA-Z ]*$/, 'MUST_BE_CHARACTER')
+    .required("Required!"),
+  Surname: yup
+    .string()
+    .min(2, "Too Short!")
+    .max(50, "Too Long!")
+    .matches(/^[a-zA-Z ]*$/, 'MUST_BE_CHARACTER')
     .required("Required!"),
 });
 
@@ -62,18 +69,19 @@ function EditProfileBT() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmitHandler)}>
-      <Stack flexGrow={1} alignItems={"flex-end"} sx={{ pr: 2, pb: 2, pt: 5 }}>
-        <Button variant="outlined" onClick={handleOpen}>
-          Edit Profile
-        </Button>
-        <Modal open={open} onClose={handleClose}>
-          <Box sx={style} borderRadius={2}>
-            <Stack bgcolor={COLORS.PRIMARY} borderRadius={1}>
-              <Typography color={COLORS.WHITE} sx={{ p: 2 }}>
-                Edit Profile
-              </Typography>
-            </Stack>
+    <Stack flexGrow={1} alignItems={"flex-end"} sx={{ pr: 2, pb: 2, pt: 5 }}>
+      <Button variant="outlined" onClick={handleOpen}>
+        Edit Profile
+      </Button>
+
+      <Modal open={open} onClose={handleClose}>
+        <Box sx={style} borderRadius={2}>
+          <Stack bgcolor={COLORS.PRIMARY} borderRadius={1}>
+            <Typography color={COLORS.WHITE} sx={{ p: 2 }}>
+              Edit Profile
+            </Typography>
+          </Stack>
+          <form onSubmit={handleSubmit(onSubmitHandler)}>
             <Stack sx={{ p: 2 }} spacing={4}>
               <Stack direction={"row"} justifyContent={"space-between"}>
                 <Stack
@@ -84,6 +92,7 @@ function EditProfileBT() {
                 >
                   <Stack direction={"row"} spacing={4}>
                     <TextField
+                      {...register("Name")}
                       id="outlined-basic"
                       name="Name"
                       label="Name"
@@ -92,20 +101,24 @@ function EditProfileBT() {
                       fullWidth
                     />
 
-                    <FormHelperText
-                      error={!!errors.Name}
-                      sx={{ fontSize: 14 }}
-                    >
+                    <FormHelperText error={!!errors.Name} sx={{ fontSize: 14 }}>
                       {errors.Name?.message}
                     </FormHelperText>
 
                     <TextField
-                      {...register("Name")}
+                      {...register("Surname")}
                       id="outlined-basic"
+                      name="Surname"
                       label="Surname"
                       variant="outlined"
+                      error={!!errors.Surname}
                       fullWidth
                     />
+
+                    <FormHelperText error={!!errors.Surname} sx={{ fontSize: 14 }}>
+                      {errors.Surname?.message}
+                    </FormHelperText>
+
                   </Stack>
 
                   <TextField
@@ -149,15 +162,19 @@ function EditProfileBT() {
               />
               <Stack flexGrow={1} alignItems={"flex-end"}>
                 <Stack direction={"row"} spacing={2}>
-                  <Button variant="outlined">Cancel</Button>
-                  <Button variant="contained" type="submit">Save</Button>
+                  <Button variant="outlined" onClick={handleClose}>
+                    Cancel
+                  </Button>
+                  <Button variant="contained" type="submit">
+                    Save
+                  </Button>
                 </Stack>
               </Stack>
             </Stack>
-          </Box>
-        </Modal>
-      </Stack>
-    </form>
+          </form>
+        </Box>
+      </Modal>
+    </Stack>
   );
 }
 
