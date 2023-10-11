@@ -88,12 +88,19 @@ function EditProfileBT() {
                       name="Name"
                       label="Name"
                       variant="outlined"
+                      error={!!errors.Name}
                       fullWidth
                     />
 
-                    <FormHelperText></FormHelperText>
+                    <FormHelperText
+                      error={!!errors.Name}
+                      sx={{ fontSize: 14 }}
+                    >
+                      {errors.Name?.message}
+                    </FormHelperText>
 
                     <TextField
+                      {...register("Name")}
                       id="outlined-basic"
                       label="Surname"
                       variant="outlined"
@@ -143,7 +150,7 @@ function EditProfileBT() {
               <Stack flexGrow={1} alignItems={"flex-end"}>
                 <Stack direction={"row"} spacing={2}>
                   <Button variant="outlined">Cancel</Button>
-                  <Button variant="contained">Save</Button>
+                  <Button variant="contained" type="submit">Save</Button>
                 </Stack>
               </Stack>
             </Stack>
