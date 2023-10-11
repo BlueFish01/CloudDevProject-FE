@@ -30,19 +30,39 @@ const style = {
   boxShadow: 24,
 };
 
+const initFormValue:EditProfileModel = {
+  Name:'Pegion',
+  Surname:'Krisakorn',
+  City:'Bangkok, Thailand',
+  IG:'',
+  Discord:'',
+  LinkedIn:'',
+  About:'',
+}
+
 const schema = yup.object().shape({
   Name: yup
     .string()
     .min(2, "Too Short!")
     .max(50, "Too Long!")
-    .matches(/^[a-zA-Z ]*$/, 'MUST_BE_CHARACTER')
+    .matches(/^[a-zA-Z ]*$/, "MUST_BE_CHARACTER")
     .required("Required!"),
   Surname: yup
     .string()
     .min(2, "Too Short!")
     .max(50, "Too Long!")
-    .matches(/^[a-zA-Z ]*$/, 'MUST_BE_CHARACTER')
+    .matches(/^[a-zA-Z ]*$/, "MUST_BE_CHARACTER")
     .required("Required!"),
+  City: yup
+    .string()
+    .min(2, "Too Short!")
+    .max(50, "Too Long!")
+    .matches(/^[a-zA-Z ]*$/, "MUST_BE_CHARACTER")
+    .required("Required!"),
+  IG: yup.string(),
+  Discord: yup.string(),
+  LinkedIn: yup.string(),
+  About: yup.string(),
 });
 
 function EditProfileBT() {
@@ -58,6 +78,7 @@ function EditProfileBT() {
     reset,
   } = useForm({
     resolver: yupResolver(schema),
+    defaultValues:initFormValue,
   });
 
   const onSubmitHandler = (data: EditProfileModel) => {
@@ -91,42 +112,59 @@ function EditProfileBT() {
                   sx={{ pr: 2 }}
                 >
                   <Stack direction={"row"} spacing={4}>
-                    <TextField
-                      {...register("Name")}
-                      id="outlined-basic"
-                      name="Name"
-                      label="Name"
-                      variant="outlined"
-                      error={!!errors.Name}
-                      fullWidth
-                    />
+                    <Stack direction={"column"} spacing={1} width={"100%"}>
+                      <TextField
+                        {...register("Name")}
+                        id="outlined-basic"
+                        name="Name"
+                        label="Name"
+                        variant="outlined"
+                        error={!!errors.Name}
+                        fullWidth
+                      />
 
-                    <FormHelperText error={!!errors.Name} sx={{ fontSize: 14 }}>
-                      {errors.Name?.message}
-                    </FormHelperText>
+                      <FormHelperText
+                        error={!!errors.Name}
+                        sx={{ fontSize: 14 }}
+                      >
+                        {errors.Name?.message}
+                      </FormHelperText>
+                    </Stack>
 
-                    <TextField
-                      {...register("Surname")}
-                      id="outlined-basic"
-                      name="Surname"
-                      label="Surname"
-                      variant="outlined"
-                      error={!!errors.Surname}
-                      fullWidth
-                    />
+                    <Stack direction={"column"} spacing={1} width={"100%"}>
+                      <TextField
+                        {...register("Surname")}
+                        id="outlined-basic"
+                        name="Surname"
+                        label="Surname"
+                        variant="outlined"
+                        error={!!errors.Surname}
+                        fullWidth
+                      />
 
-                    <FormHelperText error={!!errors.Surname} sx={{ fontSize: 14 }}>
-                      {errors.Surname?.message}
-                    </FormHelperText>
-
+                      <FormHelperText
+                        error={!!errors.Surname}
+                        sx={{ fontSize: 14 }}
+                      >
+                        {errors.Surname?.message}
+                      </FormHelperText>
+                    </Stack>
                   </Stack>
 
-                  <TextField
-                    id="outlined-basic"
-                    label="City"
-                    variant="outlined"
-                    fullWidth
-                  />
+                  <Stack direction={"column"} spacing={1} width={"100%"}>
+                    <TextField
+                      {...register("City")}
+                      id="outlined-basic"
+                      name="City"
+                      label="City"
+                      variant="outlined"
+                      error={!!errors.City}
+                      fullWidth
+                    />
+                    <FormHelperText error={!!errors.City} sx={{ fontSize: 14 }}>
+                      {errors.City?.message}
+                    </FormHelperText>
+                  </Stack>
                 </Stack>
                 <Stack alignContent={"flex-end"}>
                   <img src="https://static.vecteezy.com/system/resources/thumbnails/019/900/322/small/happy-young-cute-illustration-face-profile-png.png" />
@@ -135,27 +173,35 @@ function EditProfileBT() {
 
               <Stack direction={"row"} spacing={3}>
                 <TextField
+                  {...register("IG")}
                   id="outlined-basic"
+                  name="IG"
                   label="IG"
                   variant="outlined"
                   fullWidth
                 />
                 <TextField
+                  {...register("Discord")}
                   id="outlined-basic"
+                  name="Discord"
                   label="Discord"
                   variant="outlined"
                   fullWidth
                 />
                 <TextField
+                  {...register("LinkedIn")}
                   id="outlined-basic"
+                  name="LinkedIn"
                   label="LinkedIn"
                   variant="outlined"
                   fullWidth
                 />
               </Stack>
               <TextField
+                {...register("About")}
                 id="outlined-multiline-static"
                 multiline
+                name="About"
                 label="About"
                 variant="outlined"
                 rows={6}
