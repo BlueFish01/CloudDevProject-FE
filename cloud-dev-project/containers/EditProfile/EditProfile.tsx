@@ -18,6 +18,7 @@ import {
 import React from "react";
 import { useRouter } from "next/navigation";
 import { EditProfileModel } from "@/models/EditProfile";
+import ConfirmEditProfile from "./CFEditProfile";
 
 const style = {
   position: "absolute" as "absolute",
@@ -211,9 +212,7 @@ function EditProfileBT() {
                   <Button variant="outlined" onClick={handleClose}>
                     Cancel
                   </Button>
-                  <Button variant="contained" type="submit">
-                    Save
-                  </Button>
+                  <ConfirmEditProfile/>
                 </Stack>
               </Stack>
             </Stack>
