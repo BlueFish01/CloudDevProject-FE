@@ -87,7 +87,7 @@ function EditProfileBT() {
     //call Api here
     //success => redirect to home page
     //fail => show error message
-    router.push(PATH.PROFILE);
+    router.push(PATH.HOME);
   };
 
   return (
@@ -103,6 +103,7 @@ function EditProfileBT() {
               Edit Profile
             </Typography>
           </Stack>
+          
           <form onSubmit={handleSubmit(onSubmitHandler)}>
             <Stack sx={{ p: 2 }} spacing={4}>
               <Stack direction={"row"} justifyContent={"space-between"}>

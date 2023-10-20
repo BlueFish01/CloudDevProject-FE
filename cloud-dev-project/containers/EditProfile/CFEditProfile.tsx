@@ -53,11 +53,17 @@ function ConfirmEditProfile() {
       <Modal open={open} onClose={handleClose}>
         <Box sx={style} borderRadius={2}>
           <Stack flex={1} alignItems={"center"} sx={{ pt: 10 }}>
-            <Typography fontSize={20} color={COLORS.PRIMARY_DARK} sx={{pl:7, pr:3}}>
+            <Typography
+              fontSize={20}
+              color={COLORS.PRIMARY_DARK}
+              sx={{ pl: 7, pr: 3 }}
+            >
               Do you want to save the change?
             </Typography>
             <Stack sx={{ pt: 10 }} spacing={2}>
-              <Button variant="contained" onClick={handleClose}>Save change</Button>
+              <Button variant="contained" onClick={handleClose}>
+                Save change
+              </Button>
               <Button variant="outlined" onClick={handleClose}>
                 Cancel
               </Button>
