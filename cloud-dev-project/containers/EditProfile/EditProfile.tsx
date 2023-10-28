@@ -91,20 +91,20 @@ function EditProfileBT() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmitHandler)}>
-      <Stack flexGrow={1} alignItems={"flex-end"} sx={{ pr: 2, pb: 2, pt: 5 }}>
-        <Button variant="outlined" onClick={handleOpen}>
-          Edit Profile
-        </Button>
+    <Stack flexGrow={1} alignItems={"flex-end"} sx={{ pr: 2, pb: 2, pt: 5 }}>
+      <Button variant="outlined" onClick={handleOpen}>
+        Edit Profile
+      </Button>
 
-        <Modal open={open} onClose={handleClose}>
-          <Box sx={style} borderRadius={2}>
-            <Stack bgcolor={COLORS.PRIMARY} borderRadius={1}>
-              <Typography color={COLORS.WHITE} sx={{ p: 2 }}>
-                Edit Profile
-              </Typography>
-            </Stack>
+      <Modal open={open} onClose={handleClose}>
+        <Box sx={style} borderRadius={2}>
+          <Stack bgcolor={COLORS.PRIMARY} borderRadius={1}>
+            <Typography color={COLORS.WHITE} sx={{ p: 2 }}>
+              Edit Profile
+            </Typography>
+          </Stack>
 
+          <form onSubmit={handleSubmit(onSubmitHandler)}>
             <Stack sx={{ p: 2 }} spacing={4}>
               <Stack direction={"row"} justifyContent={"space-between"}>
                 <Stack
@@ -217,10 +217,10 @@ function EditProfileBT() {
                 </Stack>
               </Stack>
             </Stack>
-          </Box>
-        </Modal>
-      </Stack>
-    </form>
+          </form>
+        </Box>
+      </Modal>
+    </Stack>
   );
 }
 
