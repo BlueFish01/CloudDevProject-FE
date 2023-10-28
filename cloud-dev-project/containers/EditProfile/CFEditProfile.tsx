@@ -31,13 +31,46 @@ const style = {
   boxShadow: 24,
 };
 
+const schema = yup.object().shape({
+  Name: yup
+    .string()
+    .min(2, "Too Short!")
+    .max(50, "Too Long!")
+    .matches(/^[a-zA-Z ]*$/, "MUST_BE_CHARACTER")
+    .required("Required!"),
+  Surname: yup
+    .string()
+    .min(2, "Too Short!")
+    .max(50, "Too Long!")
+    .matches(/^[a-zA-Z ]*$/, "MUST_BE_CHARACTER")
+    .required("Required!"),
+  City: yup
+    .string()
+    .min(2, "Too Short!")
+    .max(50, "Too Long!")
+    .matches(/^[a-zA-Z | ,]*$/, "MUST_BE_CHARACTER")
+    .required("Required!"),
+  IG: yup.string(),
+  Discord: yup.string(),
+  LinkedIn: yup.string(),
+  About: yup.string(),
+});
+
 function ConfirmEditProfile() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const router = useRouter();
-
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({
+    resolver: yupResolver(schema),
+    //defaultValues:initFormValue,
+  });
   const onSubmitHandler = (data: EditProfileModel) => {
     console.log(data);
     //call Api here

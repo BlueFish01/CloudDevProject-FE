@@ -31,15 +31,15 @@ const style = {
   boxShadow: 24,
 };
 
-const initFormValue:EditProfileModel = {
-  Name:'Pegion',
-  Surname:'Krisakorn',
-  City:'Bangkok, Thailand',
-  IG:'',
-  Discord:'',
-  LinkedIn:'',
-  About:'',
-}
+// const initFormValue:EditProfileModel = {
+//   Name:'Pegion',
+//   Surname:'Krisakorn',
+//   City:'Bangkok, Thailand',
+//   IG:'',
+//   Discord:'',
+//   LinkedIn:'',
+//   About:'',
+// }
 
 const schema = yup.object().shape({
   Name: yup
@@ -79,7 +79,7 @@ function EditProfileBT() {
     reset,
   } = useForm({
     resolver: yupResolver(schema),
-    defaultValues:initFormValue,
+    //defaultValues:initFormValue,
   });
 
   const onSubmitHandler = (data: EditProfileModel) => {
@@ -87,24 +87,24 @@ function EditProfileBT() {
     //call Api here
     //success => redirect to home page
     //fail => show error message
-    router.push(PATH.HOME);
+    router.push(PATH.PROFILE);
   };
 
   return (
-    <Stack flexGrow={1} alignItems={"flex-end"} sx={{ pr: 2, pb: 2, pt: 5 }}>
-      <Button variant="outlined" onClick={handleOpen}>
-        Edit Profile
-      </Button>
+    <form onSubmit={handleSubmit(onSubmitHandler)}>
+      <Stack flexGrow={1} alignItems={"flex-end"} sx={{ pr: 2, pb: 2, pt: 5 }}>
+        <Button variant="outlined" onClick={handleOpen}>
+          Edit Profile
+        </Button>
 
-      <Modal open={open} onClose={handleClose}>
-        <Box sx={style} borderRadius={2}>
-          <Stack bgcolor={COLORS.PRIMARY} borderRadius={1}>
-            <Typography color={COLORS.WHITE} sx={{ p: 2 }}>
-              Edit Profile
-            </Typography>
-          </Stack>
-          
-          <form onSubmit={handleSubmit(onSubmitHandler)}>
+        <Modal open={open} onClose={handleClose}>
+          <Box sx={style} borderRadius={2}>
+            <Stack bgcolor={COLORS.PRIMARY} borderRadius={1}>
+              <Typography color={COLORS.WHITE} sx={{ p: 2 }}>
+                Edit Profile
+              </Typography>
+            </Stack>
+
             <Stack sx={{ p: 2 }} spacing={4}>
               <Stack direction={"row"} justifyContent={"space-between"}>
                 <Stack
@@ -213,14 +213,14 @@ function EditProfileBT() {
                   <Button variant="outlined" onClick={handleClose}>
                     Cancel
                   </Button>
-                  <ConfirmEditProfile/>
+                  <ConfirmEditProfile />
                 </Stack>
               </Stack>
             </Stack>
-          </form>
-        </Box>
-      </Modal>
-    </Stack>
+          </Box>
+        </Modal>
+      </Stack>
+    </form>
   );
 }
 
