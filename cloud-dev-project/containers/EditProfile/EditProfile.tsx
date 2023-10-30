@@ -18,7 +18,6 @@ import {
 import React from "react";
 import { useRouter } from "next/navigation";
 import { EditProfileModel } from "@/models/EditProfile";
-import ConfirmEditProfile from "./CFEditProfile";
 
 const style = {
   position: "absolute" as "absolute",
@@ -31,15 +30,15 @@ const style = {
   boxShadow: 24,
 };
 
-// const initFormValue:EditProfileModel = {
-//   Name:'Pegion',
-//   Surname:'Krisakorn',
-//   City:'Bangkok, Thailand',
-//   IG:'',
-//   Discord:'',
-//   LinkedIn:'',
-//   About:'',
-// }
+const initFormValue: EditProfileModel = {
+  Name: "Pigeon",
+  Surname: "Krisakorn",
+  City: "Bangkok, Thailand",
+  IG: "",
+  Discord: "",
+  LinkedIn: "",
+  About: "",
+};
 
 const schema = yup.object().shape({
   Name: yup
@@ -68,8 +67,11 @@ const schema = yup.object().shape({
 
 function EditProfileBT() {
   const [open, setOpen] = React.useState(false);
+  const [open1, setOpen1] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const handleOpen1 = () => setOpen1(true);
+  const handleClose1 = () => setOpen1(false);
 
   const router = useRouter();
   const {
@@ -79,7 +81,7 @@ function EditProfileBT() {
     reset,
   } = useForm({
     resolver: yupResolver(schema),
-    //defaultValues:initFormValue,
+    defaultValues: initFormValue,
   });
 
   const onSubmitHandler = (data: EditProfileModel) => {
@@ -87,8 +89,15 @@ function EditProfileBT() {
     //call Api here
     //success => redirect to home page
     //fail => show error message
-    router.push(PATH.PROFILE);
+    handleOpen1();
   };
+
+  const handleClick = () => {
+    // Your click event handler code here
+    console.log('Button clicked');
+    handleClose();
+  }
+  
 
   return (
     <Stack flexGrow={1} alignItems={"flex-end"} sx={{ pr: 2, pb: 2, pt: 5 }}>
@@ -213,7 +222,31 @@ function EditProfileBT() {
                   <Button variant="outlined" onClick={handleClose}>
                     Cancel
                   </Button>
-                  <ConfirmEditProfile />
+                  <Button variant="outlined" type="submit">
+                    Save
+                  </Button>
+                  <Modal open={open1} onClose={handleClose1}>
+                    <Box sx={style} borderRadius={2}>
+                      <Stack flex={1} alignItems={"center"} sx={{ pt: 10 }}>
+                        <Typography
+                          fontSize={20}
+                          color={COLORS.PRIMARY_DARK}
+                          sx={{ pl: 7, pr: 3 }}
+                        >
+                          Do you want to save the change?
+                        </Typography>
+                        <Stack sx={{ pt: 10 }} spacing={2}>
+                          <Button variant="contained" onClick={handleClick}>
+                            Save change
+                          </Button>
+                          <Button variant="outlined" onClick={handleClose1}>
+                            Cancel
+                          </Button>
+                        </Stack>
+                      </Stack>
+                    </Box>
+                  </Modal>
+                  {/* <ConfirmEditProfile /> */}
                 </Stack>
               </Stack>
             </Stack>
