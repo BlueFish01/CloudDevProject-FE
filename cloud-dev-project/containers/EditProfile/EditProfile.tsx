@@ -246,7 +246,6 @@ function EditProfileBT() {
                       </Stack>
                     </Box>
                   </Modal>
-                  {/* <ConfirmEditProfile /> */}
                 </Stack>
               </Stack>
             </Stack>
