@@ -102,10 +102,11 @@ function EditProfileBT() {
       }
     }, 500);
     //call Api here
+    //success => redirect to home page
     //fail => show error message
   };
 
-  const handleClick = (newdata: EditProfileModel | null) => {
+  const handleClick = () => {
     // Your click event handler code here
     console.log(data);
     console.log('Button clicked');
