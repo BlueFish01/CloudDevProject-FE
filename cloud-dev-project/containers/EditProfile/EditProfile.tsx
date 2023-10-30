@@ -18,6 +18,7 @@ import {
 import React from "react";
 import { useRouter } from "next/navigation";
 import { EditProfileModel } from "@/models/EditProfile";
+import { useState } from "react";
 
 const style = {
   position: "absolute" as "absolute",
@@ -84,16 +85,29 @@ function EditProfileBT() {
     defaultValues: initFormValue,
   });
 
-  const onSubmitHandler = (data: EditProfileModel) => {
-    console.log(data);
+  const [data, setData] = useState<EditProfileModel | null>(null);
+  const [api, setApi] = useState(false);
+
+  const onSubmitHandler = (formdata: EditProfileModel) => {
+    console.log(formdata);
+    setData(formdata);
+    setApi(true);
+    setTimeout(() => {
+      setApi(false);
+      const success = true;
+      if(success) {
+        handleOpen1();
+      }else{
+        console.error('API call failed');
+      }
+    }, 500);
     //call Api here
-    //success => redirect to home page
     //fail => show error message
-    handleOpen1();
   };
 
-  const handleClick = () => {
+  const handleClick = (newdata: EditProfileModel | null) => {
     // Your click event handler code here
+    console.log(data);
     console.log('Button clicked');
     handleClose();
   }
