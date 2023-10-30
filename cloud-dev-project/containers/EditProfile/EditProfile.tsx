@@ -31,6 +31,30 @@ const style = {
   boxShadow: 24,
 };
 
+const style2 = {
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "500px",
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  pb: 5
+};
+
+const style3 = {
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "500px",
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  pl: 5
+};
+
 const initFormValue: EditProfileModel = {
   Name: "Pigeon",
   Surname: "Krisakorn",
@@ -69,10 +93,13 @@ const schema = yup.object().shape({
 function EditProfileBT() {
   const [open, setOpen] = React.useState(false);
   const [open1, setOpen1] = React.useState(false);
+  const [open2, setOpen2] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const handleOpen1 = () => setOpen1(true);
   const handleClose1 = () => setOpen1(false);
+  const handleOpen2 = () => setOpen2(true);
+  const handleClose2 = () => setOpen2(false);
 
   const router = useRouter();
   const {
@@ -110,7 +137,7 @@ function EditProfileBT() {
     // Your click event handler code here
     console.log(data);
     console.log('Button clicked');
-    handleClose();
+    handleOpen2();
   }
   
 
@@ -241,7 +268,7 @@ function EditProfileBT() {
                     Save
                   </Button>
                   <Modal open={open1} onClose={handleClose1}>
-                    <Box sx={style} borderRadius={2}>
+                    <Box sx={style2} borderRadius={2}>
                       <Stack flex={1} alignItems={"center"} sx={{ pt: 10 }}>
                         <Typography
                           fontSize={20}
@@ -254,8 +281,13 @@ function EditProfileBT() {
                           <Button variant="contained" onClick={handleClick}>
                             Save change
                           </Button>
+                          <Modal open={open2} onClose={handleClose2}>
+                            <Box sx={style3} borderRadius={2}>
+                              <Typography>Your profile has been successfully updated!</Typography>
+                            </Box>
+                          </Modal>
                           <Button variant="outlined" onClick={handleClose1}>
-                            Cancel
+                            Cancel 
                           </Button>
                         </Stack>
                       </Stack>
