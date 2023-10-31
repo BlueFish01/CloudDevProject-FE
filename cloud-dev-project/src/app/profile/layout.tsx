@@ -76,7 +76,7 @@ export default function ProfileLayout({
 
         {/* Right Stack */}
         <Stack direction={{ xs: "column" }} spacing={{ xs: 1, sm: 1 }}>
-          <img src="https://static.vecteezy.com/system/resources/thumbnails/019/900/322/small/happy-young-cute-illustration-face-profile-png.png" />
+          <Image src="/UIProfile.png" width={200} height={200} alt="Profile Picture" />
           <Stack direction={"row"}>
             <Typography variant="h4">Follow on</Typography>
             <Stack direction="row" pl={2}>
