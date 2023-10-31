@@ -19,6 +19,7 @@ import { useState } from "react";
 import { Form, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import CheckIcon from "@mui/icons-material/Check";
+import Image from "next/image";
 
 const initFormValue: EditProfileModel = {
   Name: "Pigeon",
@@ -81,7 +82,6 @@ const styleModal = {
 };
 
 function ValidateForm() {
-
   const [open, setOpen] = React.useState(false);
   const [open1, setOpen1] = React.useState(false);
   const [open2, setOpen2] = React.useState(false);
@@ -94,7 +94,6 @@ function ValidateForm() {
   const handleClose2 = () => setOpen2(false);
   const handleOpen3 = () => setOpen3(true);
   const handleClose3 = () => setOpen3(false);
-  
 
   const [data, setData] = useState<EditProfileModel | null>(null);
   const [api, setApi] = useState(false);
@@ -207,7 +206,12 @@ function ValidateForm() {
             </Stack>
           </Stack>
           <Stack alignContent={"flex-end"}>
-            <img src="https://static.vecteezy.com/system/resources/thumbnails/019/900/322/small/happy-young-cute-illustration-face-profile-png.png" />
+            <Image
+              src="/UIProfile.png"
+              width={200}
+              height={200}
+              alt="Profile Picture"
+            />
           </Stack>
         </Stack>
 
