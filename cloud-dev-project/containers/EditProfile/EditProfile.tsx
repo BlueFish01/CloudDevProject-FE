@@ -19,6 +19,8 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import { EditProfileModel } from "@/models/EditProfile";
 import { useState } from "react";
+import CheckIcon from "@mui/icons-material/Check";
+import ClearIcon from "@mui/icons-material/Clear";
 
 const style = {
   position: "absolute" as "absolute",
@@ -40,7 +42,7 @@ const style2 = {
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
-  pb: 5
+  pb: 5,
 };
 
 const style3 = {
@@ -48,12 +50,26 @@ const style3 = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: "500px",
-  bgcolor: "background.paper",
+  width: "600px",
+  height: "50px",
+  bgcolor: COLORS.PRIMARY,
   border: "2px solid #000",
   boxShadow: 24,
-  pl: 5
+  pl: 5,
 };
+
+const styleModal = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-300px, -250px)",
+  width: "600px",
+  height: "50px",
+  bgcolor: COLORS.PRIMARY,
+  border: "2px solid #000",
+  boxShadow: 24,
+  pl: 5,
+}
 
 const initFormValue: EditProfileModel = {
   Name: "Pigeon",
@@ -94,12 +110,15 @@ function EditProfileBT() {
   const [open, setOpen] = React.useState(false);
   const [open1, setOpen1] = React.useState(false);
   const [open2, setOpen2] = React.useState(false);
+  const [open3, setOpen3] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const handleOpen1 = () => setOpen1(true);
   const handleClose1 = () => setOpen1(false);
   const handleOpen2 = () => setOpen2(true);
   const handleClose2 = () => setOpen2(false);
+  const handleOpen3 = () => setOpen3(true);
+  const handleClose3 = () => setOpen3(false);
 
   const router = useRouter();
   const {
@@ -122,10 +141,10 @@ function EditProfileBT() {
     setTimeout(() => {
       setApi(false);
       const success = true;
-      if(success) {
+      if (success) {
         handleOpen1();
-      }else{
-        console.error('API call failed');
+      } else {
+        console.error("API call failed");
       }
     }, 500);
     //call Api here
@@ -133,13 +152,31 @@ function EditProfileBT() {
     //fail => show error message
   };
 
-  const handleClick = () => {
+  const refreshPage = () => {
+    const success = true;
+    setTimeout(() => {
+      if (success) {
+        window.location.reload();
+      } else {
+        console.error("API call failed");
+      }
+    }, 1500);
+  };
+
+  const successfully = () => {
     // Your click event handler code here
     console.log(data);
-    console.log('Button clicked');
+    console.log("Button clicked");
     handleOpen2();
-  }
-  
+    refreshPage();
+  };
+
+  const leave = () => {
+    // Your click event handler code here
+    console.log("Button clicked");
+    handleClose();
+    refreshPage();
+  };
 
   return (
     <Stack flexGrow={1} alignItems={"flex-end"} sx={{ pr: 2, pb: 2, pt: 5 }}>
@@ -261,7 +298,7 @@ function EditProfileBT() {
               />
               <Stack flexGrow={1} alignItems={"flex-end"}>
                 <Stack direction={"row"} spacing={2}>
-                  <Button variant="outlined" onClick={handleClose}>
+                  <Button variant="outlined" onClick={handleOpen3}>
                     Cancel
                   </Button>
                   <Button variant="outlined" type="submit">
@@ -278,16 +315,53 @@ function EditProfileBT() {
                           Do you want to save the change?
                         </Typography>
                         <Stack sx={{ pt: 10 }} spacing={2}>
-                          <Button variant="contained" onClick={handleClick}>
+                          <Button variant="contained" onClick={successfully}>
                             Save change
                           </Button>
                           <Modal open={open2} onClose={handleClose2}>
-                            <Box sx={style3} borderRadius={2}>
-                              <Typography>Your profile has been successfully updated!</Typography>
+                            <Box sx={styleModal} borderRadius={2}>
+                              <Stack
+                                direction={"row"}
+                                sx={{ pt: 1 }}
+                                spacing={4}
+                              >
+                                <CheckIcon />
+                                <Typography>
+                                  Your profile has been successfully updated!
+                                </Typography>
+                                {/* <ClearIcon onClick={handleClose} /> */}
+                              </Stack>
                             </Box>
                           </Modal>
                           <Button variant="outlined" onClick={handleClose1}>
-                            Cancel 
+                            Cancel
+                          </Button>
+                        </Stack>
+                      </Stack>
+                    </Box>
+                  </Modal>
+                  <Modal open={open3} onClose={handleClose1}>
+                    <Box sx={style2} borderRadius={2}>
+                      <Stack flex={1} alignItems={"center"} sx={{ pt: 10 }}>
+                        <Stack
+                          color={COLORS.PRIMARY_DARK}
+                          sx={{ pl: 7, pr: 3 }}
+                        >
+                          <Typography  fontSize={20}>Do you want to leave?</Typography>
+                          <Typography fontSize={20} color={COLORS.DANGER}>
+                            All your unsaved change will be lost
+                          </Typography>
+                        </Stack>
+                        <Stack sx={{ pt: 10 }} spacing={2}>
+                          <Button
+                            variant="contained"
+                            onClick={leave}
+                            style={{ backgroundColor: COLORS.DANGER }}
+                          >
+                            Leave
+                          </Button>
+                          <Button variant="outlined" onClick={handleClose3}>
+                            Cancel
                           </Button>
                         </Stack>
                       </Stack>
