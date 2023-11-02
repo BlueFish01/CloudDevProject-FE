@@ -13,6 +13,7 @@ import {
 import Image from "next/image";
 import { useState } from "react";
 import Paragraph from "@/containers/EditBlog/ExampleofParagraph";
+import CancelIcon from "@mui/icons-material/Cancel";
 
 const EditingBoxStyle = {
   position: "absolute",
@@ -38,9 +39,16 @@ export default function EditBlogWindow() {
       </Button>
       <Modal open={openEditWindow} onClose={handleCloseEditWindow}>
         <Box sx={EditingBoxStyle} borderRadius={"10px"}>
-          <Stack bgcolor={COLORS.PRIMARY_DARK} sx={{ p: 2 }}>
-            <Typography fontSize={'20px'}>Blog Editor</Typography>
+          <Stack direction={"row"} bgcolor={COLORS.PRIMARY_DARK} sx={{ p: 2 }} justifyContent={'space-between'}>
+            <Typography fontSize={"20px"} color={COLORS.WHITE}>
+              Blog Editor
+            </Typography>
+            <CancelIcon
+              style={{ color: COLORS.WHITE }}
+              onClick={handleCloseEditWindow}
+            />
           </Stack>
+
           <Stack sx={{ p: 2 }}>
             <Stack
               direction={"row"}
@@ -49,12 +57,14 @@ export default function EditBlogWindow() {
               sx={{ p: 2 }}
               spacing={2}
             >
-              <Image
-                src={"/MockPhoto.jpeg"}
-                width={284}
-                height={280}
-                alt="MockPhoto"
-              />
+              <Stack style={{ borderRadius: "10px", overflow: "hidden" }}>
+                <Image
+                  src={"/MockPhoto.jpeg"}
+                  width={284}
+                  height={280}
+                  alt="MockPhoto"
+                />
+              </Stack>
               <Stack flexGrow={1} spacing={2}>
                 <TextField
                   label="Title"

@@ -24,20 +24,36 @@ export default function UI_BlogDetail({
 }) {
   return (
     <Container maxWidth={false}>
-      <NavBar />
+      <Stack
+        style={{ position: "sticky", overflow: "hidden", top: 0, zIndex: 999 }}
+      >
+        <NavBar />
+      </Stack>
 
-      <Stack direction={"row"} sx={{ p: 2 }} spacing={3}>
-        <Stack direction={"column"} spacing={2} width={1000}>
-          <Image
-            src={"/MockPhoto.jpeg"}
-            width={1001}
-            height={310}
-            alt="image"
-          />
-          <Typography fontSize={55}>Heading</Typography>
-          <Paragraph/>
+      <Stack direction={"row"} sx={{ p: 2 }} spacing={3} style={{ position: "static", overflow: "hidden" }}>
+        <Stack
+          direction={"column"}
+          spacing={2}
+          width={1000}
+        >
+          <Box style={{ overflow: "hidden", overflowY: "scroll"}} height={"90VH"}>
+            <Stack style={{ borderRadius: "10px", overflow: "hidden" }}>
+              <Image
+                src={"/MockPhoto.jpeg"}
+                width={1001}
+                height={310}
+                alt="image"
+              />
+            </Stack>
+            <Typography fontSize={55}>Heading</Typography>
+            <Paragraph />
+          </Box>
         </Stack>
-        <Stack direction={"column"} spacing={2}>
+
+        <Stack
+          direction={"column"}
+          spacing={2}
+        >
           <Stack
             direction={"column"}
             bgcolor={COLORS.PRIMARY}
