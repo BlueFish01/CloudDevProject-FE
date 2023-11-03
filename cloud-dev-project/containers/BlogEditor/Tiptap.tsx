@@ -12,22 +12,40 @@ import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import {common, createLowlight} from 'lowlight'
 import CodeBlockComponent from './CodeBlockComponent.jsx';
 
+type TiptapProps = {
+  setEditor: (editor:Editor) => void
+}
 
 const lowlight = createLowlight(common)
 
-const Tiptap = () => {
+const Tiptap = ({
+  setEditor
+}:TiptapProps) => {
   const editor:Editor | null = useEditor({
     extensions: [
       StarterKit,
-      CodeBlockLowlight
-        .extend({
-          addNodeView() {
-            return ReactNodeViewRenderer(CodeBlockComponent)
-          },
-        })
-        .configure({ lowlight }),
+      CodeBlockLowlight.extend({
+        addNodeView() {
+          return ReactNodeViewRenderer(CodeBlockComponent)
+        },
+        addKeyboardShortcuts() {
+          return {
+            Tab: () => {
+              if (this.editor.isActive("codeBlock")) {
+                return this.editor.commands.insertContent("\t");
+              }
+            },
+          }
+        },
+      }).configure({ lowlight }),
     ],
     content: '<p>Hello World! 🌎️</p>',
+
+    onCreate: ({ editor }:Editor) => {
+      setEditor(editor);
+      // send editor to parent component
+    },
+
     editorProps: {
       attributes: {
         class: 'editor',
@@ -61,10 +79,7 @@ const Tiptap = () => {
       border={'1px solid'}
       borderColor={COLORS.LIGHT_GRAY}
       borderRadius={'10px'}
-    >
-      {/* <MenuBar editor={editor} /> */}
-      
-      
+    > 
       <EditorContent editor={editor} />
     </Box>
     </>

@@ -1,12 +1,13 @@
 
 pre {
-    background: #0d0d0d;
+    background: #353f55;
     color: #fff;
     font-family: "JetBrainsMono", monospace;
     padding: 0.75rem 1rem;
     border-radius: 0.5rem;
     margin-left: 20px;
     margin-right: 20px;
+    tab-size: 2;
 
     code {
     color: inherit;
