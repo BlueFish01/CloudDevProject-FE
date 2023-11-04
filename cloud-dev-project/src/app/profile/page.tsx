@@ -20,6 +20,7 @@ import { Form, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import CheckIcon from "@mui/icons-material/Check";
 import Image from "next/image";
+import LeaveButton from "@/containers/EditProfile/LeaveButton";
 
 const initFormValue: EditProfileModel = {
   Name: "Pigeon",
@@ -85,15 +86,13 @@ function ValidateForm() {
   const [open, setOpen] = React.useState(false);
   const [open1, setOpen1] = React.useState(false);
   const [open2, setOpen2] = React.useState(false);
-  const [open3, setOpen3] = React.useState(false);
+  const [openLeave, setOpenLeave] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const handleOpen1 = () => setOpen1(true);
   const handleClose1 = () => setOpen1(false);
   const handleOpen2 = () => setOpen2(true);
   const handleClose2 = () => setOpen2(false);
-  const handleOpen3 = () => setOpen3(true);
-  const handleClose3 = () => setOpen3(false);
 
   const [data, setData] = useState<EditProfileModel | null>(null);
   const [api, setApi] = useState(false);
@@ -252,9 +251,7 @@ function ValidateForm() {
         />
         <Stack flexGrow={1} alignItems={"flex-end"}>
           <Stack direction={"row"} spacing={2}>
-            <Button variant="outlined" onClick={handleOpen3}>
-              Cancel
-            </Button>
+            <LeaveButton />
             <Button variant="outlined" type="submit">
               Save
             </Button>
@@ -284,30 +281,6 @@ function ValidateForm() {
                       </Box>
                     </Modal>
                     <Button variant="outlined" onClick={handleClose1}>
-                      Cancel
-                    </Button>
-                  </Stack>
-                </Stack>
-              </Box>
-            </Modal>
-            <Modal open={open3} onClose={handleClose1}>
-              <Box sx={style2} borderRadius={2}>
-                <Stack flex={1} alignItems={"center"} sx={{ pt: 10 }}>
-                  <Stack color={COLORS.PRIMARY_DARK} sx={{ pl: 7, pr: 3 }}>
-                    <Typography fontSize={20}>Do you want to leave?</Typography>
-                    <Typography fontSize={20} color={COLORS.DANGER}>
-                      All your unsaved change will be lost
-                    </Typography>
-                  </Stack>
-                  <Stack sx={{ pt: 10 }} spacing={2}>
-                    <Button
-                      variant="contained"
-                      onClick={leave}
-                      style={{ backgroundColor: COLORS.DANGER }}
-                    >
-                      Leave
-                    </Button>
-                    <Button variant="outlined" onClick={handleClose3}>
                       Cancel
                     </Button>
                   </Stack>
