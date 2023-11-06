@@ -47,9 +47,13 @@ const schema = yup.object().shape({
 
 type BlogEditorProps = {
   open: boolean;
+  onClose: () => void;  
 };
 
-function BlogEditor({ open }: BlogEditorProps) {
+function BlogEditor({ 
+  open,
+  onClose, 
+}: BlogEditorProps) {
   const {
     register,
     handleSubmit,
@@ -107,7 +111,7 @@ function BlogEditor({ open }: BlogEditorProps) {
   };
 
   return (
-    <Modal open={open} onClose={() => {}}>
+    <Modal open={open} onClose={()=>{}}>
       <form onSubmit={handleSubmit(onSubmitHandler)}>
         <Box bgcolor={"white"} sx={style}>
           <Stack
@@ -124,7 +128,10 @@ function BlogEditor({ open }: BlogEditorProps) {
             <Typography fontSize={"20px"} color={COLORS.WHITE}>
               Blog Editor
             </Typography>
-            <IconButton sx={{ width: "24px", height: "24px" }}>
+            <IconButton 
+              sx={{ width: "24px", height: "24px" }}
+              onClick={onClose}
+            >
               <FontAwesomeIcon
                 icon={faCircleXmark}
                 style={{ color: COLORS.WHITE }}
@@ -238,7 +245,7 @@ function BlogEditor({ open }: BlogEditorProps) {
               py={1}
               pb={0}
             >
-              <Button variant={"outlined"} fullWidth size={"small"}>
+              <Button variant={"outlined"} fullWidth size={"small"} onClick={onClose}>
                 cancle
               </Button>
               <Button
