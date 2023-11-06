@@ -32,8 +32,10 @@ const Tiptap = ({
           return {
             Tab: () => {
               if (this.editor.isActive("codeBlock")) {
-                return this.editor.commands.insertContent("\t");
+                this.editor.commands.insertContent("\t");
+                return true;
               }
+              return false;
             },
           }
         },
@@ -41,7 +43,7 @@ const Tiptap = ({
     ],
     content: '<p>Hello World! 🌎️</p>',
 
-    onCreate: ({ editor }:Editor) => {
+    onCreate: ({ editor }:any) => {
       setEditor(editor);
       // send editor to parent component
     },
