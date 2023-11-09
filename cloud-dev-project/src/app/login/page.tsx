@@ -18,6 +18,8 @@ import {
 import { LoginFormModel } from "@/models";
 
 import { useRouter } from "next/navigation";
+import LoginApi from "@/apiCaller/login";
+import { useAuth } from "@/src/context/AuthContext";
 
 const schema = yup.object().shape({
   email: yup.string().email("email is not valid").required("email is required"),
@@ -25,7 +27,10 @@ const schema = yup.object().shape({
 });
 
 function Login() {
+  
   const router = useRouter();
+  const { token, setToken } = useAuth();
+
   const {
     register,
     handleSubmit,
@@ -35,11 +40,19 @@ function Login() {
     resolver: yupResolver(schema),
   });
 
+  const loginHandler = async(data: LoginFormModel) => {
+    try {
+      const response = await LoginApi(data);
+      console.log('Login successful', response);
+
+    }catch (error) {
+      console.error('Login failed', error);
+    }
+  }; 
+
   const onSubmitHandler = (data: LoginFormModel) => {
     console.log(data);
-    //call Api here
-    //success => redirect to home page
-    //fail => show error message
+    loginHandler(data);
     router.push(PATH.HOME);
   };
 

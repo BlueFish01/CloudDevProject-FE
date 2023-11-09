@@ -19,27 +19,13 @@ export default function HomePage() {
   return (
     <Stack direction={"row"} width={"100%"} height={"100%"}>
       <Stack width={"75%"}>
-        <Stack height={"100vh"} sx={{ overflowY: "auto" }}>
+        <Stack height={"100%"} >
           <Stack
             direction={"column"}
             rowGap={3}
             padding={2}
             pt={3}
             mr={2}
-            sx={{
-              overflow: "hidden",
-              overflowY: "scroll",
-              "&::-webkit-scrollbar": {
-                width: "10px",
-              },
-              "&::-webkit-scrollbar-thumb": {
-                backgroundColor: COLORS.DARK_GRAY, // Customize the scrollbar thumb color
-                borderRadius: "10px", // Customize the scrollbar thumb border-radius
-              },
-              "&::-webkit-scrollbar-track": {
-                backgroundColor: "white", // Customize the scrollbar track color
-              },
-            }}
           >
             <Stack flexGrow={1} direction={"row"} columnGap={1}>
               {filter.map((item, index) => (
