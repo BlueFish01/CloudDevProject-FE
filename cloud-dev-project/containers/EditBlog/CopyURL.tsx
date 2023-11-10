@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import copy from "clipboard-copy";
+import {copy} from "clipboard-copy";
 import { COLORS } from "@/constants";
 import {
   Container,
