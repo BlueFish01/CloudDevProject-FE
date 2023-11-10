@@ -10,12 +10,10 @@ import {
   Divider,
   Modal,
 } from "@mui/material";
-import Image from "next/image";
 import { useState } from "react";
 import EditBlogWindow from "@/containers/EditBlog/EditBlogWindow";
-import copy from "clipboard-copy";
 import CopyURLButton from "@/containers/EditBlog/CopyURL";
-import { useRouter } from "next/navigation";
+import DeleteBlogButton from "@/containers/EditBlog/DeleteBlogButton";
 
 const style2 = {
   position: "absolute" as "absolute",
@@ -40,29 +38,6 @@ export default function EditBlog() {
   const handleOpenLeave = () => setOpenLeave(true);
   const handleCloseLeave = () => setOpenLeave(false);
 
-  const [openNoti, setOpenNoti] = useState(false);
-  const handleOpenNoti = () => setOpenNoti(true);
-  const handleCloseNoti = () => setOpenNoti(false);
-
-  const router = useRouter();
-  const refreshPage = () => {
-    const success = true;
-    setTimeout(() => {
-      if (success) {
-        window.location.reload();
-      } else {
-        console.error("API call failed");
-      }
-    }, 1500);
-  };
-
-  const leave = () => {
-    // Your click event handler code here
-    console.log("Button clicked");
-    handleCloseLeave();
-    router.push(PATH.HOME);
-  };
-
   return (
     <Stack spacing={2}>
       <CopyURLButton />
@@ -84,13 +59,7 @@ export default function EditBlog() {
               </Typography>
             </Stack>
             <Stack sx={{ pt: 10 }} spacing={2}>
-              <Button
-                variant="contained"
-                onClick={leave}
-                style={{ backgroundColor: COLORS.DANGER }}
-              >
-                Delete
-              </Button>
+              <DeleteBlogButton/>
               <Button variant="outlined" onClick={handleCloseLeave}>
                 Cancel
               </Button>
