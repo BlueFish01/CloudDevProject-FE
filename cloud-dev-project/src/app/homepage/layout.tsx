@@ -18,7 +18,9 @@ export default function HomeLayout({
     <Container maxWidth={false}>
       <Stack overflow={"auto"} height={"100vh"}>
         <Stack position={"fixed"} width={"100vw"} top={0} zIndex={999}>
-          <NavBar children={<LogoutButton/>}/>
+          <NavBar>
+            <LogoutButton/>
+          </NavBar>
         </Stack>
         <Stack paddingTop={"70px"}>{children}</Stack>
       </Stack>
