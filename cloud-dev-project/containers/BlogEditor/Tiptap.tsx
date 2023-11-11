@@ -11,17 +11,26 @@ import EditorMenuButton from '@/components/editorMenuButton/editorMenuButton';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import {common, createLowlight} from 'lowlight'
 import CodeBlockComponent from './CodeBlockComponent.jsx';
+import { useState } from 'react';
 
 type TiptapProps = {
-  setEditor: (editor:Editor) => void
+  setEditor: (editor:Editor) => void;
+  mode? : "edit" | "read" | "write";
+  jsonConten? : object;
 }
 
 const lowlight = createLowlight(common)
 
+
+
 const Tiptap = ({
-  setEditor
+  setEditor,
+  mode,
+  jsonConten,
 }:TiptapProps) => {
+  const [editable, setEditable] = useState(mode === ("edit"||"write") ? true : false)
   const editor:Editor | null = useEditor({
+    editable: editable,
     extensions: [
       StarterKit,
       CodeBlockLowlight.extend({
@@ -41,7 +50,7 @@ const Tiptap = ({
         },
       }).configure({ lowlight }),
     ],
-    content: '<p>Hello World! 🌎️</p>',
+    content: jsonConten ? jsonConten : null,
 
     onCreate: ({ editor }:any) => {
       setEditor(editor);
@@ -58,7 +67,7 @@ const Tiptap = ({
   return (
     <>
     <Box mt={1}>
-      <EditorMenuButton editor={editor}/>
+      {mode === ("edit"||"write") && <EditorMenuButton editor={editor}/>}
     </Box>
     <Box 
       flexGrow={1} 

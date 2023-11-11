@@ -236,7 +236,7 @@ function BlogEditor({
               </Stack>
             </Stack>
 
-            <Tiptap setEditor={getEditor} />
+            <Tiptap setEditor={getEditor} mode={"write"}/>
 
             <Stack
               justifyContent={"flex-end"}

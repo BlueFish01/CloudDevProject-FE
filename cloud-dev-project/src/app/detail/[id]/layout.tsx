@@ -1,3 +1,4 @@
+'use client';
 import { COLORS } from "@/constants";
 import {
   Container,
@@ -16,12 +17,79 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import LinkedIn from "@mui/icons-material/LinkedIn";
 import EditBlog from "./page";
 import Paragraph from "@/containers/EditBlog/ExampleofParagraph";
+import Tiptap from "@/containers/BlogEditor/Tiptap";
+import { Editor } from "@tiptap/react";
+import { useState } from "react";
 
 export default function UI_BlogDetail({
   children,
 }: {
   children: React.ReactNode;
 }) {
+
+  const [editor, setEditor] = useState<Editor | null>(null);
+
+  const getEditor = (editor: Editor) => {
+    setEditor(editor);
+  };
+
+  const mock_content = {
+    type: "doc",
+    content: [
+      {
+        type: "heading",
+        attrs: {
+          level: 1,
+        },
+        content: [
+          {
+            type: "text",
+            marks: [
+              {
+                type: "bold",
+              },
+            ],
+            text: "Hello this is test",
+          },
+        ],
+      },
+      {
+        type: "paragraph",
+        content: [
+          {
+            type: "text",
+            text: "test ",
+          },
+          {
+            type: "text",
+            marks: [
+              {
+                type: "bold",
+              },
+            ],
+            text: "code block ",
+          },
+          {
+            type: "text",
+            text: "json result",
+          },
+        ],
+      },
+      {
+        type: "codeBlock",
+        attrs: {
+          language: "python",
+        },
+        content: [
+          {
+            type: "text",
+            text: "for i range(1,10):\n\tprint(i)\n\n##this is comment",
+          },
+        ],
+      },
+    ],
+  };
+
   return (
     <Container maxWidth={false}>
       <Stack
@@ -34,19 +102,20 @@ export default function UI_BlogDetail({
         <Stack
           direction={"column"}
           spacing={2}
-          width={1000}
+          width={'80%'}
+          px={20}
         >
           <Box style={{ overflow: "hidden", overflowY: "scroll"}} height={"90VH"}>
             <Stack style={{ borderRadius: "10px", overflow: "hidden" }}>
               <Image
                 src={"/MockPhoto.jpeg"}
-                width={1001}
+                width={1000}
                 height={310}
                 alt="image"
               />
             </Stack>
-            <Typography fontSize={55}>Heading</Typography>
-            <Paragraph />
+            {/* tiptap */}
+            <Tiptap setEditor={getEditor} mode={'read'} jsonConten={mock_content}/>
           </Box>
         </Stack>
 
