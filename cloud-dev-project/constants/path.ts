@@ -3,4 +3,4 @@ export enum PATH {
     HOME = '/homepage',
     PROFILE = '/profile',
     UIBlogDetail = '/UIBlogDetail',
-}
+    ROOT = '/',
