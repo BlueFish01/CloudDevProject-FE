@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Container, Stack, Box, Typography } from "@mui/material";
 import NavBar from "@/containers/NevBar/NevBar";
 import { COLORS } from "@/constants";
+import LogoutButton from "@/components/logoutButton/LogoutButton";
 
 export const metadata: Metadata = {
   title: "Homepage",
@@ -17,7 +18,7 @@ export default function HomeLayout({
     <Container maxWidth={false}>
       <Stack overflow={"auto"} height={"100vh"}>
         <Stack position={"fixed"} width={"100vw"} top={0} zIndex={999}>
-          <NavBar />
+          <NavBar children={<LogoutButton/>}/>
         </Stack>
         <Stack paddingTop={"70px"}>{children}</Stack>
       </Stack>

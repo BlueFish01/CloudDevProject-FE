@@ -11,9 +11,7 @@ function page() {
   return (
     <Container>
       <Box flex={1} height={'100vh'}  display={'flex'} justifyContent={'center'} alignItems={'center'}>
-        <Button variant={"contained"} size={"medium"}>Click Me</Button>
-      </Box>
-      
+      </Box>  
     </Container>
   );
 }
