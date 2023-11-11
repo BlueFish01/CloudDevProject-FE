@@ -1,5 +1,5 @@
 import axios from 'axios'
-
+import { useCookies } from 'react-cookie';
 import {LoginFormModel} from '../models/loginModel';
 
 
@@ -18,7 +18,9 @@ export default async function LoginApi(data:LoginFormModel) {
     };
 
     try {
-        const response = await axios(config);
+        //const response = await axios(config);
+        const response = {data :{result:{authToken:"1234567890"}}};
+
         return response.data;
 
     } catch (error) {

@@ -1,28 +1,30 @@
 import { NextResponse } from "next/server";
-import { getSessionToken } from "@/utils/sessionStorage"; 
 import type { NextRequest } from "next/server";
 import {PATH} from "@/constants";
-import { parse } from 'cookie';
 
 
 
-const protectedRoutes = [PATH.HOME,PATH.PROFILE] as string[] ;
+const protectedRoutes = [PATH.HOME,PATH.PROFILE,PATH.ROOT] as string[] ;
 
 export default function middleware(req: NextRequest) {
 
-    const cookies = new Headers(req.headers).get('cookie') || '';
-    const parsedCookies = parse(cookies) as {[key: string]: string};
+    
+    const auth = req.cookies.has("authToken");
+    const cookie = req.cookies.get("authToken");
+    console.log("cookie : ",cookie);
 
-    console.log("authToken : ",cookies);
-
-    if (!parsedCookies.authToken && protectedRoutes.includes(req.nextUrl.pathname)) {
+    if (!auth && protectedRoutes.includes(req.nextUrl.pathname)) {
       const absoluteURL = new URL(PATH.LOGIN, req.nextUrl.origin);
       console.log("redirected to login");
       return NextResponse.redirect(absoluteURL.toString());
       
     }
+    if (auth && (req.nextUrl.pathname === PATH.LOGIN || req.nextUrl.pathname === PATH.ROOT)) {
+      const absoluteURL = new URL(PATH.HOME, req.nextUrl.origin);
+      console.log("redirected to HOME");
+      return NextResponse.redirect(absoluteURL.toString());
+    }
     else{
-      console.log("next : ");
       return NextResponse.next();
     }
   }

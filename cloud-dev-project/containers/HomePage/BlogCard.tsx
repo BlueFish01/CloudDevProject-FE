@@ -17,7 +17,7 @@ const BlogCard = ({
   title = "Heading",
   views = 1230,
   createdDate = "12/12/2021",
-  pictureLink = "/MockPhoto.jpeg",
+  pictureLink = "https://www.freecodecamp.org/news/content/images/2022/09/jonatan-pie-3l3RwQdHRHg-unsplash.jpg",
 }: BlogCardProps) => {
   return (
     <Stack
@@ -34,7 +34,7 @@ const BlogCard = ({
         borderRadius={"10px"}
         overflow={"clip"}
       >
-        <Image src={pictureLink} layout="fill" alt="Picture of the author" />
+        <Image src={pictureLink} layout="fill" alt="Picture of the author" loading="lazy"/>
       </Box>
       <Stack justifyContent={"space-between"} flexGrow={1}>
         <Typography variant="h2" color={COLORS.PRIMARY} pl={1}>

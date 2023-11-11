@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { COLORS, PATH } from "@/constants";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
@@ -19,7 +19,8 @@ import { LoginFormModel } from "@/models";
 
 import { useRouter } from "next/navigation";
 import LoginApi from "@/apiCaller/login";
-import { useAuth } from "@/src/context/AuthContext";
+import { useCookies } from 'react-cookie';
+
 
 const schema = yup.object().shape({
   email: yup.string().email("email is not valid").required("email is required"),
@@ -29,7 +30,7 @@ const schema = yup.object().shape({
 function Login() {
   
   const router = useRouter();
-  const { token, setToken } = useAuth();
+  const [cookies, setCookie] = useCookies(['authToken']);
 
   const {
     register,
@@ -40,10 +41,16 @@ function Login() {
     resolver: yupResolver(schema),
   });
 
+  const addCookie = (token:string) => {
+    setCookie('authToken', token, { path: '/' });
+    router.replace(PATH.HOME);
+  }
+
   const loginHandler = async(data: LoginFormModel) => {
     try {
       const response = await LoginApi(data);
       console.log('Login successful', response);
+      addCookie(response.result.authToken);
 
     }catch (error) {
       console.error('Login failed', error);
@@ -53,7 +60,6 @@ function Login() {
   const onSubmitHandler = (data: LoginFormModel) => {
     console.log(data);
     loginHandler(data);
-    router.push(PATH.HOME);
   };
 
   return (

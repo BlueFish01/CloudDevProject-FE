@@ -1,18 +1,21 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
-import { COLORS } from '@/constants'
+"use client";
+import { CookiesProvider } from 'react-cookie';
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import { 
   Container,
-  Button,
   Box,
 } from '@mui/material';
 
 function page() {
   return (
+    <CookiesProvider>
     <Container>
       <Box flex={1} height={'100vh'}  display={'flex'} justifyContent={'center'} alignItems={'center'}>
+        {/* <Loading/> */}
       </Box>  
     </Container>
+    </CookiesProvider>
   );
 }
 

@@ -6,15 +6,16 @@ import {faArrowRightFromBracket} from '@fortawesome/free-solid-svg-icons'
 import { COLORS, PATH} from '@/constants'
 import { useState } from 'react'
 import ConfirmDialog from '../Dialog/confirmDialog'
-import { clearSessionToken } from '@/utils/sessionStorage';
 import { useRouter } from "next/navigation";
+import { useCookies } from 'react-cookie';
 
 function LogoutButton() {
   const router = useRouter();
   const [openConfirmModal, setOpenConfirmModal] = useState<boolean>(false);
+  const [cookies, setCookie, removeCookie] = useCookies(['authToken']);
 
   const logoutHandler = () => {
-    clearSessionToken();
+    removeCookie('authToken');
     router.push(PATH.LOGIN);
   };
 
