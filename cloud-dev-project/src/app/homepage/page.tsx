@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Stack, Typography, Box, Button, Grid } from "@mui/material";
+import { Stack, Typography, Box, Button, Grid, CircularProgress } from "@mui/material";
 import { COLORS } from "@/constants";
 import BlogCard from "@/containers/HomePage/BlogCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -29,14 +29,8 @@ export default function HomePage() {
   return (
     <Stack direction={"row"} width={"100%"} height={"100%"}>
       <Stack width={"75%"}>
-        <Stack height={"100%"} >
-          <Stack
-            direction={"column"}
-            rowGap={3}
-            padding={2}
-            pt={3}
-            mr={2}
-          >
+        <Stack height={"100%"}>
+          <Stack direction={"column"} rowGap={3} padding={2} pt={3} mr={2}>
             <Stack flexGrow={1} direction={"row"} columnGap={1}>
               {filter.map((item, index) => (
                 <Button
@@ -52,17 +46,45 @@ export default function HomePage() {
               ))}
             </Stack>
 
-            <Grid container width={"100%"}>
-              {response?.map((item, index) => (
-                <Grid key={item.blogId} item xs={4} height={375} pr={2} pt={2}>
-                  <Link href={`/detail/${item.blogId.toString()}`} style={{ textDecoration: 'none' }}>
-                    
+            {isPending ? (
+              <Box 
+                display={'flex'}
+                height={'80vh'}
+                justifyContent={'center'}
+                alignItems={'center'}
+                flexDirection={'column'}
+                rowGap={2}
+              >
+                <CircularProgress
+                  thickness={5}
+                  sx={{transition: 'ease-in-out 500ms'}}
+                />
+                <Typography variant="h2" color={COLORS.PRIMARY_LIGHT}>
+                  Loading...
+                </Typography>
+              </Box>
+            ) : (
+              <Grid container width={"100%"}>
+                {response?.map((item, index) => (
+                  <Grid
+                    key={item.blogId}
+                    item
+                    xs={4}
+                    height={375}
+                    pr={2}
+                    pt={2}
+                  >
+                    <Link
+                      href={`/detail/${item.blogId.toString()}`}
+                      style={{ textDecoration: "none" }}
+                    >
                       <BlogCard cardDetail={item} />
-                    
-                  </Link>
-                </Grid>
-              ))}
-            </Grid>
+                    </Link>
+                  </Grid>
+                ))}
+              </Grid>
+            )}
+
           </Stack>
         </Stack>
       </Stack>
@@ -78,14 +100,22 @@ export default function HomePage() {
           sx={{ width: "100%" }}
           variant="contained"
           startIcon={<FontAwesomeIcon icon={faPenToSquare} />}
-          onClick={()=>{setOpenBlogEditModal(true)}}
+          onClick={() => {
+            setOpenBlogEditModal(true);
+          }}
         >
           Write
         </Button>
         <NewsCard />
         <CompanyCard />
       </Stack>
-      <BlogEditor mode={'write'} open={openBlogEditModal} onClose={()=>{setOpenBlogEditModal(false)}}/>
+      <BlogEditor
+        mode={"write"}
+        open={openBlogEditModal}
+        onClose={() => {
+          setOpenBlogEditModal(false);
+        }}
+      />
     </Stack>
   );
 }
