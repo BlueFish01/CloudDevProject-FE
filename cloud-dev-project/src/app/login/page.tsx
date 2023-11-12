@@ -50,7 +50,7 @@ function Login() {
     try {
       const response = await LoginApi(data);
       console.log('Login successful', response);
-      addCookie(response.result.authToken);
+      addCookie(response.result.accessToken);
 
     }catch (error) {
       console.error('Login failed', error);

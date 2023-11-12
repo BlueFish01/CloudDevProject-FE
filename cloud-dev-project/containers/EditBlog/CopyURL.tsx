@@ -11,6 +11,8 @@ import {
   Divider,
   Modal,
 } from "@mui/material";
+import Alert from "@/components/Alert/alert";
+
 const NotiBoxStyle = {
   position: "absolute",
   top: "50%",
@@ -19,7 +21,8 @@ const NotiBoxStyle = {
   width: "900px",
   height: "64px",
   bgcolor: COLORS.SECONDARY,
-  border: "2px solid #000",
+  border: "2px solid",
+  borderColor: COLORS.WHITE,
   boxShadow: 24,
   pl: 5,
 };
@@ -50,22 +53,19 @@ const CopyURLButton: React.FC = () => {
       .catch((error) => {
         console.error("Failed to copy URL:", error);
       });
-    refreshPage();
+    setTimeout(() => {
+      handleCloseNoti();
+    }, 1000);
   };
 
   return (
     <Stack>
       <Button onClick={handleCopyClick} variant="contained">SHARE</Button>
-      {/* <Stack alignItems={'center'}>
-        {copied && <p>URL copied to clipboard!</p>}
-      </Stack> */}
-      <Modal open={openNoti} onClose={handleCloseNoti}>
-        <Box sx={NotiBoxStyle} borderRadius={"10px"}>
-          <Typography align="center" fontSize={"20px"} sx={{ p: 2 }}>
-            URL was cpied to clipboard
-          </Typography>
-        </Box>
-      </Modal>
+      <Alert
+        message={"Copied to clipboard"}
+        type={"success"}
+        open={openNoti}
+        handleClose={handleCloseNoti}/>
     </Stack>
   );
 };

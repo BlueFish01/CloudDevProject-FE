@@ -18,8 +18,8 @@ export default async function LoginApi(data:LoginFormModel) {
     };
 
     try {
-        //const response = await axios(config);
-        const response = {data :{result:{authToken:"1234567890"}}};
+        const response = await axios(config);
+        //const response = {data :{result:{authToken:"1234567890"}}};
 
         return response.data;
 

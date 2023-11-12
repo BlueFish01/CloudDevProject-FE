@@ -47,12 +47,16 @@ const schema = yup.object().shape({
 
 type BlogEditorProps = {
   open: boolean;
-  onClose: () => void;  
+  onClose: () => void;
+  mode: "edit" | "write";
+  content?: object | null;
 };
 
 function BlogEditor({ 
   open,
-  onClose, 
+  onClose,
+  mode,
+  content,
 }: BlogEditorProps) {
   const {
     register,
@@ -236,7 +240,7 @@ function BlogEditor({
               </Stack>
             </Stack>
 
-            <Tiptap setEditor={getEditor} />
+            <Tiptap setEditor={getEditor} mode={mode}/>
 
             <Stack
               justifyContent={"flex-end"}

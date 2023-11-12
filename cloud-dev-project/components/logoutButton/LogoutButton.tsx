@@ -14,9 +14,16 @@ function LogoutButton() {
   const [openConfirmModal, setOpenConfirmModal] = useState<boolean>(false);
   const [cookies, setCookie, removeCookie] = useCookies(['authToken']);
 
-  const logoutHandler = () => {
-    removeCookie('authToken');
-    router.push(PATH.LOGIN);
+  const logoutHandler = async () => {
+    console.log('Logout successful');
+    try {
+      console.log("auth:",cookies.authToken)
+      await removeCookie('authToken');
+      router.replace(PATH.LOGIN);
+    }
+    catch (error) {
+      console.error('Logout failed', error);
+    }
   };
 
   return (
