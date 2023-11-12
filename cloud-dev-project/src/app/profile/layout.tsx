@@ -14,6 +14,7 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import NavBar from "@/containers/NevBar/NevBar";
 import EditProfileBT from "@/containers/EditProfile/EditProfile";
+import LogoutButton from "@/components/logoutButton/LogoutButton";
 
 export default function ProfileLayout({
   children,
@@ -22,7 +23,11 @@ export default function ProfileLayout({
 }) {
   return (
     <Container maxWidth={false}>
-      <NavBar />
+
+      <NavBar>
+        <LogoutButton/>
+      </NavBar>
+
       <Typography variant="h5" pt={3} pl={2}>
         Profile
       </Typography>

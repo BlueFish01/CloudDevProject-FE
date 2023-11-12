@@ -28,7 +28,7 @@ const Tiptap = ({
   mode,
   jsonConten,
 }:TiptapProps) => {
-  const [editable, setEditable] = useState(mode === ("edit"||"write") ? true : false)
+  const [editable, setEditable] = useState((mode === "edit"|| mode === "write") ? true : false)
   const editor:Editor | null = useEditor({
     editable: editable,
     extensions: [
@@ -67,7 +67,7 @@ const Tiptap = ({
   return (
     <>
     <Box mt={1}>
-      {mode === ("edit"||"write") && <EditorMenuButton editor={editor}/>}
+      {(mode === "edit"|| mode === "write") && <EditorMenuButton editor={editor}/>}
     </Box>
     <Box 
       flexGrow={1} 

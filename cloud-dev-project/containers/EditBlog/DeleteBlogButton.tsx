@@ -12,37 +12,18 @@ import {
   Modal,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
-
-const NotiBoxStyle = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-450px, -250px)",
-  width: "900px",
-  height: "64px",
-  bgcolor: COLORS.DANGER,
-  border: "2px solid #000",
-  boxShadow: 24,
-  pl: 5,
-};
+import Alert from "@/components/Alert/alert"; 
 
 const DeleteBlogButton: React.FC = () => {
   const [openNoti, setOpenNoti] = useState(false);
-  const [openLeave, setOpenLeave] = useState(false);
-  const handleOpenNoti = () => setOpenNoti(true);
-  const handleCloseNoti = () => setOpenNoti(false);
-  const handleOpenLeave = () => setOpenLeave(true);
-  const handleCloseLeave = () => setOpenLeave(false);
   const router = useRouter();
 
   const leave = () => {
-    // Your click event handler code here
-    console.log("Button clicked");
-    handleCloseLeave();
-    handleOpenNoti();
+    setOpenNoti(true);
     setTimeout(() => {
-      router.push(PATH.HOME);
-    }, 1500);
+      setOpenNoti(false);
+      router.replace(PATH.HOME);
+    }, 1000);
   };
 
   return (
@@ -54,18 +35,12 @@ const DeleteBlogButton: React.FC = () => {
       >
         Delete
       </Button>
-      <Modal open={openNoti} onClose={handleCloseNoti}>
-        <Box sx={NotiBoxStyle} borderRadius={"10px"}>
-          <Typography
-            align="center"
-            fontSize={"20px"}
-            sx={{ p: 2 }}
-            color={COLORS.WHITE}
-          >
-            This blog is deleted.
-          </Typography>
-        </Box>
-      </Modal>
+      <Alert
+        message={"Blog deleted"}
+        type={"error"}
+        open={openNoti}
+        handleClose={()=>{setOpenNoti(false)}}
+      />
     </Stack>
   );
 };

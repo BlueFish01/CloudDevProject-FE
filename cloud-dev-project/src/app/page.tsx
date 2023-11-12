@@ -1,6 +1,6 @@
 "use client";
 import { CookiesProvider } from 'react-cookie';
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { 
   Container,
@@ -10,11 +10,12 @@ import {
 function page() {
   return (
     <CookiesProvider>
-    <Container>
-      <Box flex={1} height={'100vh'}  display={'flex'} justifyContent={'center'} alignItems={'center'}>
-        {/* <Loading/> */}
-      </Box>  
-    </Container>
+        <Container>
+          <Box flex={1} height={'100vh'}  display={'flex'} justifyContent={'center'} alignItems={'center'}>
+            {/* <Loading/> */}
+          </Box>  
+        </Container>
+       
     </CookiesProvider>
   );
 }

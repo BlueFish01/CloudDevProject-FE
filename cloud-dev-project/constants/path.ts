@@ -3,6 +3,7 @@ export enum PATH {
     HOME = '/homepage',
     PROFILE = '/profile',
     UIBlogDetail = '/UIBlogDetail',
+    AUTH_TOKEN = 'api.auth',
     ROOT = '/',
 }
 

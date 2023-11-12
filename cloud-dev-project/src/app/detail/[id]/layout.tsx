@@ -1,5 +1,5 @@
 'use client';
-import { COLORS } from "@/constants";
+import { COLORS, PATH } from "@/constants";
 import {
   Container,
   Button,
@@ -9,17 +9,18 @@ import {
   Stack,
   Divider,
   Modal,
+  IconButton,
 } from "@mui/material";
 import Image from "next/image";
 import NavBar from "@/containers/NevBar/NevBar";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import InstagramIcon from "@mui/icons-material/Instagram";
-import LinkedIn from "@mui/icons-material/LinkedIn";
 import EditBlog from "./page";
-import Paragraph from "@/containers/EditBlog/ExampleofParagraph";
 import Tiptap from "@/containers/BlogEditor/Tiptap";
 import { Editor } from "@tiptap/react";
 import { useState } from "react";
+import CompanyCard from "@/containers/HomePage/CompanyCard";
+import Link from "next/link";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function UI_BlogDetail({
   children,
@@ -95,7 +96,14 @@ export default function UI_BlogDetail({
       <Stack
         style={{ position: "sticky", overflow: "hidden", top: 0, zIndex: 999 }}
       >
-        <NavBar />
+        <NavBar>
+          <Link href={PATH.PROFILE} style={{ textDecoration: 'none' }}>
+            <IconButton sx={{backgroundColor:COLORS.WHITE, width:'45px', height:'45px'}}>
+              <FontAwesomeIcon icon={faUser} style={{color:COLORS.SECONDARY}}/>
+            </IconButton>
+          </Link>
+        </NavBar>
+
       </Stack>
 
       <Stack direction={"row"} sx={{ p: 2 }} spacing={3} style={{ position: "static", overflow: "hidden" }}>
@@ -155,34 +163,7 @@ export default function UI_BlogDetail({
             <Divider variant="middle" color={COLORS.PRIMARY_LIGHT} />
             <EditBlog />
           </Stack>
-          <Stack
-            direction={"column"}
-            borderRadius={"10px"}
-            bgcolor={"#CDE1F7"}
-            sx={{ p: 2 }}
-            spacing={2}
-          >
-            <Typography>COMPANY</Typography>
-            <Stack direction={"row"} spacing={2}>
-              <Typography fontSize={"14px"}>About</Typography>
-              <Divider orientation="vertical" flexItem />
-              <Typography fontSize={"14px"}>Support</Typography>
-              <Divider orientation="vertical" flexItem />
-              <Typography fontSize={"14px"}>Careers</Typography>
-            </Stack>
-            <Typography fontSize={"16px"}>CONNECT WITH US</Typography>
-            <Stack direction={"row"} spacing={1}>
-              <FacebookIcon sx={{ fontSize: 40 }} />
-              <LinkedIn sx={{ fontSize: 40 }} />
-              <InstagramIcon sx={{ fontSize: 40 }} />
-            </Stack>
-            <Divider variant="middle" color={COLORS.PRIMARY_LIGHT} />
-            <Stack direction={"row"} spacing={2} color={COLORS.WHITE}>
-              <Typography fontSize={"14px"}>Privacy</Typography>
-              <Divider orientation="vertical" color={COLORS.PRIMARY_DARK} />
-              <Typography fontSize={"14px"}>Term</Typography>
-            </Stack>
-          </Stack>
+          <CompanyCard />
         </Stack>
       </Stack>
     </Container>

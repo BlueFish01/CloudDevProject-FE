@@ -14,6 +14,7 @@ import { useState } from "react";
 import EditBlogWindow from "@/containers/EditBlog/EditBlogWindow";
 import CopyURLButton from "@/containers/EditBlog/CopyURL";
 import DeleteBlogButton from "@/containers/EditBlog/DeleteBlogButton";
+import BlogEditor from "@/containers/BlogEditor/blogEditor";
 
 const style2 = {
   position: "absolute" as "absolute",
@@ -37,11 +38,25 @@ export default function EditBlog() {
   const handleClose1 = () => setOpen1(false);
   const handleOpenLeave = () => setOpenLeave(true);
   const handleCloseLeave = () => setOpenLeave(false);
+  const [openBlogEditModal, setOpenBlogEditModal] = useState<boolean>(false);
 
   return (
     <Stack spacing={2}>
       <CopyURLButton />
-      <EditBlogWindow />
+      <BlogEditor 
+        mode={'write'} 
+        open={openBlogEditModal} 
+        onClose={()=>{setOpenBlogEditModal(false)}}
+        content={null}
+      />
+      
+      <Button
+        variant="outlined"
+        onClick={()=>{setOpenBlogEditModal(true)}}
+      >
+        Edit
+      </Button>
+
       <Button
         variant="outlined"
         style={{ color: COLORS.DANGER, borderColor: COLORS.DANGER }}

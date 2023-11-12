@@ -3,22 +3,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Stack, Box, Typography } from "@mui/material";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
+import {BlogResponseModel} from "@/models"
 
 type BlogCardProps = {
-  cardId?: string;
-  title?: string;
-  views?: number;
-  createdDate?: string;
-  pictureLink?: string;
+  cardDetail: BlogResponseModel;
 };
 
 const BlogCard = ({
-  cardId = "123",
-  title = "Heading",
-  views = 1230,
-  createdDate = "12/12/2021",
-  pictureLink = "https://www.freecodecamp.org/news/content/images/2022/09/jonatan-pie-3l3RwQdHRHg-unsplash.jpg",
+  cardDetail
 }: BlogCardProps) => {
+  const {blogCover,blogTitle,blogView,blogCreateDate,blogDescription} = cardDetail;
   return (
     <Stack
       flexGrow={1}
@@ -34,18 +28,23 @@ const BlogCard = ({
         borderRadius={"10px"}
         overflow={"clip"}
       >
-        <Image src={pictureLink} layout="fill" alt="Picture of the author" loading="lazy"/>
+        <Image src={blogCover} layout="fill" alt="Picture of the author" loading="lazy"/>
       </Box>
       <Stack justifyContent={"space-between"} flexGrow={1}>
+        <Stack>
         <Typography variant="h2" color={COLORS.PRIMARY} pl={1}>
-          {title}
+          {blogTitle}
         </Typography>
+        <Typography variant="body1" color={COLORS.PRIMARY_LIGHT} pl={1} sx={{fontSize:'12px'}}>
+          {blogDescription}
+        </Typography>
+        </Stack>
         <Stack direction={"row"} justifyContent={"space-between"} px={1}>
           <Stack direction={"row"} alignItems={"center"} spacing={1}>
             <FontAwesomeIcon icon={faEye} color={COLORS.PRIMARY_LIGHT} />
-            <Typography color={COLORS.PRIMARY_LIGHT}>{views}</Typography>
+            <Typography color={COLORS.PRIMARY_LIGHT}>{blogView}</Typography>
           </Stack>
-          <Typography color={COLORS.PRIMARY_LIGHT}>{createdDate}</Typography>
+          <Typography color={COLORS.PRIMARY_LIGHT}>{blogCreateDate}</Typography>
         </Stack>
       </Stack>
     </Stack>

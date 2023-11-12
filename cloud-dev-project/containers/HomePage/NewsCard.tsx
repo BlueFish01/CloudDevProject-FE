@@ -31,7 +31,7 @@ function NewsCard() {
       </Typography>
       <Divider sx={{ background: COLORS.PRIMARY_LIGHT }} />
       {news?.map((item, index) => (
-        <Stack>
+        <Stack key={index}>
           <Typography
             key={index}
             variant={"h4"}
