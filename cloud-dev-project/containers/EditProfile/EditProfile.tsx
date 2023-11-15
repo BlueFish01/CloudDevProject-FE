@@ -15,7 +15,7 @@ import {
   TextField,
   FormHelperText,
 } from "@mui/material";
-import React from "react";
+import React, { Fragment } from "react";
 import { useRouter } from "next/navigation";
 import { EditProfileModel } from "@/models/Profile";
 import ValidateForm from "@/src/app/profile/page";
@@ -37,7 +37,7 @@ function EditProfileBT() {
   const handleClose = () => setOpen(false);
 
   return (
-    <Stack flexGrow={1} alignItems={"flex-end"} sx={{ pr: 2, pb: 2, pt: 5 }}>
+    <Stack alignItems={'flex-end'}>
       <Button variant="outlined" onClick={handleOpen}>
         Edit Profile
       </Button>
@@ -49,7 +49,7 @@ function EditProfileBT() {
               Edit Profile
             </Typography>
           </Stack>
-          <ValidateForm/>
+          <ValidateForm />
         </Box>
       </Modal>
     </Stack>

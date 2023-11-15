@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { COLORS } from "@/constants";
 import {
   Container,
@@ -8,17 +8,34 @@ import {
   Typography,
   Stack,
   Divider,
+  IconButton,
 } from "@mui/material";
 import Image from "next/image";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import InstagramIcon from "@mui/icons-material/Instagram";
 import NavBar from "@/containers/NevBar/NevBar";
 import EditProfileBT from "@/containers/EditProfile/EditProfile";
 import LogoutButton from "@/components/logoutButton/LogoutButton";
 import { useQuery } from "@tanstack/react-query";
 import getProfile from "@/apiCaller/getProfile";
 import { getProfileModel } from "@/models";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  IconDefinition,
+  faDiscord,
+  faInstagram,
+  faLinkedin,
+} from "@fortawesome/free-brands-svg-icons";
+
+type TSocialMedia = {
+  name: string;
+  link: string;
+  icon: IconDefinition;
+};
+
+const socialMedia: TSocialMedia[] = [
+  { name: "Discord", link: "https://discord.com/", icon: faDiscord },
+  { name: "Instagram", link: "https://www.instagram.com/", icon: faInstagram },
+  { name: "Linkedin", link: "https://www.linkedin.com/", icon: faLinkedin },
+];
 
 export default function ProfileLayout({
   children,
@@ -40,15 +57,20 @@ export default function ProfileLayout({
         Profile
       </Typography>
 
-      <Stack direction={"row"} spacing={{ xs: 1, sm: 2 }} pl={2}>
+      <Stack direction={"row"} spacing={{ xs: 1, sm: 2 }} pl={2} sx={{height:'540px'}}>
         <Box
           sx={{
-            pl: 2,
-            pt: 2,
-            border: 1,
-            borderColor: COLORS.PRIMARY_DARK,
-            borderRadius: 2,
+            px: 2,
+            py: 2,
+            border: "2px solid",
+            borderColor: COLORS.SECONDARY,
+            borderRadius: "10px",
+            flex: 1,
+            height: '100%'
           }}
+          justifyContent={'space-between'}
+          display={'flex'}
+          flexDirection={'column'}
         >
           {/* /Left stack */}
           <Stack direction={"column"}>
@@ -74,29 +96,39 @@ export default function ProfileLayout({
                 <Typography>About</Typography>
                 <Divider />
               </Stack>
-              <Typography paragraph={true}>
-                {data?.about}
-              </Typography>
-              <EditProfileBT />
+              <Typography paragraph={true}>{data?.about}</Typography>
             </Stack>
           </Stack>
+          <EditProfileBT />
         </Box>
         {/* /End left stack */}
 
         {/* Right Stack */}
         <Stack direction={{ xs: "column" }} spacing={{ xs: 1, sm: 1 }}>
-          <Image
-            src="/UIProfile.png"
-            width={200}
-            height={200}
-            alt="Profile Picture"
-          />
+          <Stack sx={{ borderRadius: "10px" }} flex={1} alignItems={"flex-end"}>
+            <Image
+              src="/UIProfile.png"
+              width={420}
+              height={420}
+              alt="Profile Picture"
+            />
+          </Stack>
           <Stack direction={"row"}>
             <Typography variant="h4">Follow on</Typography>
-            <Stack direction="row" pl={2}>
-              <FacebookIcon style={{ color: COLORS.PRIMARY_LIGHT }} />
-              <LinkedInIcon style={{ color: COLORS.PRIMARY_LIGHT }} />
-              <InstagramIcon style={{ color: COLORS.PRIMARY_LIGHT }} />
+            <Stack direction={"row"}>
+              {socialMedia.map((item, index) => (
+                <IconButton
+                  key={index}
+                  sx={{
+                    width: "100px",
+                    height: "47px",
+                    background: COLORS.WHITE,
+                  }}
+                  onClick={() => window.open(item.link, "_blank")}
+                >
+                  <FontAwesomeIcon icon={item.icon} color={COLORS.SECONDARY} />
+                </IconButton>
+              ))}
             </Stack>
           </Stack>
         </Stack>
