@@ -1,4 +1,4 @@
 export * from './loginModel';
 export * from './homePageModel';
-export * from './EditProfile';
+export * from './Profile';
 export * from './BlogListModel';

@@ -1,3 +1,4 @@
+"use client"
 import { COLORS } from "@/constants";
 import {
   Container,
@@ -15,17 +16,24 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import NavBar from "@/containers/NevBar/NevBar";
 import EditProfileBT from "@/containers/EditProfile/EditProfile";
 import LogoutButton from "@/components/logoutButton/LogoutButton";
+import { useQuery } from "@tanstack/react-query";
+import getProfile from "@/apiCaller/getProfile";
+import { getProfileModel } from "@/models";
 
 export default function ProfileLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const { data, isPending } = useQuery<getProfileModel | null>({
+    queryKey: ["getProfile"],
+    queryFn: () => getProfile(),
+  });
+
   return (
     <Container maxWidth={false}>
-
       <NavBar>
-        <LogoutButton/>
+        <LogoutButton />
       </NavBar>
 
       <Typography variant="h5" pt={3} pl={2}>
@@ -46,16 +54,16 @@ export default function ProfileLayout({
           <Stack direction={"column"}>
             <Stack direction={"row"}>
               <Typography fontSize={35} fontWeight={"bold"}>
-                Denial Smith
+                {data?.name}
               </Typography>
               <Stack flexGrow={1} alignItems={"flex-end"} pr={4}>
                 <Typography fontSize={35} fontWeight={"bold"}>
-                  12
+                  {data?.numberOfBlog}
                 </Typography>
               </Stack>
             </Stack>
             <Stack direction={"row"}>
-              <Typography variant="h4">Bangkok, Thailand</Typography>
+              <Typography variant="h4">{data?.city}</Typography>
               <Stack flexGrow={1} alignItems={"flex-end"} pr={4}>
                 <Typography variant="h2">Blogs</Typography>
               </Stack>
@@ -67,11 +75,7 @@ export default function ProfileLayout({
                 <Divider />
               </Stack>
               <Typography paragraph={true}>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Feugiat in fermentum posuere urna. Ante metus dictum at tempor.
-                Non tellus orci ac auctor augue mauris augue neque gravida. Elit
-                pellentesque habitant morbi tristique.
+                {data?.about}
               </Typography>
               <EditProfileBT />
             </Stack>
@@ -81,7 +85,12 @@ export default function ProfileLayout({
 
         {/* Right Stack */}
         <Stack direction={{ xs: "column" }} spacing={{ xs: 1, sm: 1 }}>
-          <Image src="/UIProfile.png" width={200} height={200} alt="Profile Picture" />
+          <Image
+            src="/UIProfile.png"
+            width={200}
+            height={200}
+            alt="Profile Picture"
+          />
           <Stack direction={"row"}>
             <Typography variant="h4">Follow on</Typography>
             <Stack direction="row" pl={2}>

@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import { useRouter } from "next/navigation";
-import { EditProfileModel } from "@/models/EditProfile";
+import { EditProfileModel } from "@/models/Profile";
 import ValidateForm from "@/src/app/profile/page";
 
 const style = {
