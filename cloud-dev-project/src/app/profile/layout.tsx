@@ -9,6 +9,7 @@ import {
   Stack,
   Divider,
   IconButton,
+  Modal,
 } from "@mui/material";
 import Image from "next/image";
 import NavBar from "@/containers/NevBar/NevBar";
@@ -24,6 +25,20 @@ import {
   faInstagram,
   faLinkedin,
 } from "@fortawesome/free-brands-svg-icons";
+import { useState } from "react";
+import ValidateForm from "./page";
+import { isNull } from "util";
+
+const styleEditProfile = {
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "1150px",
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+};
 
 type TSocialMedia = {
   name: string;
@@ -42,10 +57,15 @@ export default function ProfileLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { data, isPending } = useQuery<getProfileModel | null>({
+  const { data, isPending } = useQuery({
     queryKey: ["getProfile"],
     queryFn: () => getProfile(),
   });
+
+  const { response }: { response: getProfileModel } = data || { response: {} };
+
+  const [openEditProfileModal, setOpenEditProfileModal] =
+    useState<boolean>(false);
 
   return (
     <Container maxWidth={false}>
@@ -53,11 +73,16 @@ export default function ProfileLayout({
         <LogoutButton />
       </NavBar>
 
-      <Typography variant="h5" pt={3} pl={2}>
+      <Typography variant="h5" pt={3} pl={2} color={COLORS.PRIMARY} fontSize={'16px'} fontWeight={500} letterSpacing={'2.8px'}>
         Profile
       </Typography>
 
-      <Stack direction={"row"} spacing={{ xs: 1, sm: 2 }} pl={2} sx={{height:'540px'}}>
+      <Stack
+        direction={"row"}
+        spacing={{ xs: 1, sm: 2 }}
+        pl={2}
+        sx={{ height: "540px" }}
+      >
         <Box
           sx={{
             px: 2,
@@ -66,28 +91,44 @@ export default function ProfileLayout({
             borderColor: COLORS.SECONDARY,
             borderRadius: "10px",
             flex: 1,
-            height: '100%'
+            height: "100%",
           }}
-          justifyContent={'space-between'}
-          display={'flex'}
-          flexDirection={'column'}
+          justifyContent={"space-between"}
+          display={"flex"}
+          flexDirection={"column"}
         >
           {/* /Left stack */}
           <Stack direction={"column"}>
             <Stack direction={"row"}>
-              <Typography fontSize={35} fontWeight={"bold"}>
-                {data?.name}
+              <Typography
+                fontSize={"40px"}
+                fontWeight={800}
+                letterSpacing={"7px"}
+              >
+                {response.userFname}  {response.userLname}
               </Typography>
-              <Stack flexGrow={1} alignItems={"flex-end"} pr={4}>
-                <Typography fontSize={35} fontWeight={"bold"}>
-                  {data?.numberOfBlog}
+              <Stack flexGrow={1} alignItems={"flex-end"} pr={3}>
+                <Typography
+                  fontSize={"48px"}
+                  fontWeight={800}
+                  letterSpacing={"8.4px"}
+                >
+                  {/* {data?.numberOfBlog} */}
+                  12
                 </Typography>
               </Stack>
             </Stack>
             <Stack direction={"row"}>
               <Typography variant="h4">{data?.city}</Typography>
               <Stack flexGrow={1} alignItems={"flex-end"} pr={4}>
-                <Typography variant="h2">Blogs</Typography>
+                <Typography
+                  variant="h2"
+                  fontSize={"32px"}
+                  fontWeight={400}
+                  letterSpacing={"5.6px"}
+                >
+                  Blogs
+                </Typography>
               </Stack>
             </Stack>
 
@@ -96,10 +137,35 @@ export default function ProfileLayout({
                 <Typography>About</Typography>
                 <Divider />
               </Stack>
-              <Typography paragraph={true}>{data?.about}</Typography>
+              <Typography paragraph={true}>{response.userAbout}</Typography>
             </Stack>
           </Stack>
-          <EditProfileBT />
+          <Stack alignItems={"flex-end"}>
+            <Button
+              variant="outlined"
+              onClick={() => {
+                setOpenEditProfileModal(true);
+              }}
+            >
+              <Typography fontSize={'20px'} fontWeight={500} letterSpacing={'3.5'}>Edit Profile</Typography>
+            </Button>
+
+            <Modal
+              open={openEditProfileModal}
+              onClose={() => {
+                setOpenEditProfileModal(false);
+              }}
+            >
+              <Box sx={styleEditProfile} borderRadius={2}>
+                <Stack bgcolor={COLORS.PRIMARY} borderRadius={1}>
+                  <Typography color={COLORS.WHITE} sx={{ p: 2 }}>
+                    Edit Profile
+                  </Typography>
+                </Stack>
+                <ValidateForm initdata={data} />
+              </Box>
+            </Modal>
+          </Stack>
         </Box>
         {/* /End left stack */}
 
@@ -107,26 +173,26 @@ export default function ProfileLayout({
         <Stack direction={{ xs: "column" }} spacing={{ xs: 1, sm: 1 }}>
           <Stack sx={{ borderRadius: "10px" }} flex={1} alignItems={"flex-end"}>
             <Image
-              src="/UIProfile.png"
+              src={response.userPicture}
               width={420}
               height={420}
               alt="Profile Picture"
             />
           </Stack>
-          <Stack direction={"row"}>
-            <Typography variant="h4">Follow on</Typography>
-            <Stack direction={"row"}>
+          <Stack direction={"row"} justifyContent={'space-evenly'}>
+            <Typography variant="h4" fontSize={'20px'} fontWeight={500}>Follow on</Typography>
+            <Stack direction={"row"} columnGap={2}>
               {socialMedia.map((item, index) => (
                 <IconButton
                   key={index}
                   sx={{
-                    width: "100px",
-                    height: "47px",
-                    background: COLORS.WHITE,
+                    width: "50px",
+                    height: "50px",
+                    background: COLORS.SECONDARY,
                   }}
                   onClick={() => window.open(item.link, "_blank")}
                 >
-                  <FontAwesomeIcon icon={item.icon} color={COLORS.SECONDARY} />
+                  <FontAwesomeIcon icon={item.icon} color={COLORS.LIGHT_GRAY} />
                 </IconButton>
               ))}
             </Stack>

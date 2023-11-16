@@ -14,23 +14,15 @@ import {
 } from "@mui/material";
 import React from "react";
 import * as yup from "yup";
-import { EditProfileModel } from "@/models";
+import { EditProfileModel, getProfileModel } from "@/models";
 import { useState } from "react";
 import { Form, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import CheckIcon from "@mui/icons-material/Check";
 import Image from "next/image";
 import LeaveButton from "@/containers/EditProfile/LeaveButton";
-
-const initFormValue: EditProfileModel = {
-  Name: "Pigeon",
-  Surname: "Krisakorn",
-  City: "Bangkok, Thailand",
-  IG: "",
-  Discord: "",
-  LinkedIn: "",
-  About: "",
-};
+import { useQuery } from "@tanstack/react-query";
+import getProfile from "@/apiCaller/getProfile";
 
 const schema = yup.object().shape({
   Name: yup
@@ -82,7 +74,13 @@ const styleModal = {
   pl: 5,
 };
 
-function ValidateForm() {
+type TValidFormProps = {
+  initdata : getProfileModel | null | undefined;
+}
+
+function ValidateForm({
+  initdata,
+}:TValidFormProps) {
   const [open, setOpen] = React.useState(false);
   const [open1, setOpen1] = React.useState(false);
   const [open2, setOpen2] = React.useState(false);
@@ -102,9 +100,9 @@ function ValidateForm() {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm({
+  } = useForm<getProfileModel>({
     resolver: yupResolver(schema),
-    defaultValues: initFormValue,
+    defaultValues: {...initdata},
   });
 
   const onSubmitHandler = (formdata: EditProfileModel) => {

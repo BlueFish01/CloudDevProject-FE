@@ -10,11 +10,15 @@ export type EditProfileModel = {
 }
 
 export type getProfileModel = {
-    profileImage : string;
-    name : string;
-    surname : string;
-    city : string;
-    socialLink : string[];
-    about : string;
-    numberOfBlog : number;
+    userId: number;
+    username: string;
+    userFname: string;
+    userLname: string;
+    userEmail: string;
+    userSocial: string[];
+    userPicture: string;
+    userAbout: string;
+    createDate: Date;
+    userStatus: string;
+    cuid: string
 }
