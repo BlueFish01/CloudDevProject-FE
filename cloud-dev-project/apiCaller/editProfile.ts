@@ -6,10 +6,10 @@ import {getProfileModel} from '../models/Profile';
 export default async function editProfile(data:getProfileModel) {
 
     const url = process.env.NEXT_PUBLIC_AUTH_URL;
+    
 
     const config = {
         method: 'post',
-        maxBodyLength: Infinity,
         url: url,
         headers: { 
             'Content-Type': 'application/json'
