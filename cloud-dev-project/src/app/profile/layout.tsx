@@ -162,7 +162,7 @@ export default function ProfileLayout({
                     Edit Profile
                   </Typography>
                 </Stack>
-                <ValidateForm initdata={data} />
+                <ValidateForm initdata={response} />
               </Box>
             </Modal>
           </Stack>

@@ -10,15 +10,16 @@ export type EditProfileModel = {
 }
 
 export type getProfileModel = {
-    userId: number;
-    username: string;
-    userFname: string;
-    userLname: string;
-    userEmail: string;
-    userSocial: string[];
-    userPicture: string;
-    userAbout: string;
-    createDate: Date;
-    userStatus: string;
-    cuid: string
+    userId?: number;
+    username?: string;
+    userFname?: string;
+    userLname?: string;
+    userEmail?: string;
+    userSocial?: string[];
+    userPicture?: string;
+    userAbout?: string;
+    createDate?: Date;
+    userStatus?: string;
+    cuid?: string;
+    userCity: string;
 }

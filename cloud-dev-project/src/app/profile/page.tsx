@@ -24,6 +24,31 @@ import LeaveButton from "@/containers/EditProfile/LeaveButton";
 import { useQuery } from "@tanstack/react-query";
 import getProfile from "@/apiCaller/getProfile";
 
+const style2 = {
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "500px",
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  pb: 5,
+};
+
+const styleModal = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-300px, -250px)",
+  width: "600px",
+  height: "50px",
+  bgcolor: COLORS.PRIMARY,
+  border: "2px solid #000",
+  boxShadow: 24,
+  pl: 5,
+};
+
 const schema = yup.object().shape({
   Name: yup
     .string()
@@ -49,30 +74,6 @@ const schema = yup.object().shape({
   About: yup.string(),
 });
 
-const style2 = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "500px",
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  pb: 5,
-};
-
-const styleModal = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-300px, -250px)",
-  width: "600px",
-  height: "50px",
-  bgcolor: COLORS.PRIMARY,
-  border: "2px solid #000",
-  boxShadow: 24,
-  pl: 5,
-};
 
 type TValidFormProps = {
   initdata : getProfileModel | null | undefined;
@@ -100,9 +101,13 @@ function ValidateForm({
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<getProfileModel>({
+  } = useForm({
     resolver: yupResolver(schema),
-    defaultValues: {...initdata},
+    defaultValues: {
+      Name : `${initdata?.userFname} ${initdata?.userLname}`,
+      City : initdata?.userCity,
+
+    },
   });
 
   const onSubmitHandler = (formdata: EditProfileModel) => {
