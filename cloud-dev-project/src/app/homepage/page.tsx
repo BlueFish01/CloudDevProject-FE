@@ -75,7 +75,10 @@ export default function HomePage() {
                     pt={2}
                   >
                     <Link
-                      href={`/detail/${item.blogId.toString()}`}
+                      //href={`/detail/${item.blogId.toString()}`}
+                      href={{pathname:"/detail",
+                        query: {blogId: item.blogId}
+                      }}
                       style={{ textDecoration: "none" }}
                     >
                       <BlogCard cardDetail={item} />

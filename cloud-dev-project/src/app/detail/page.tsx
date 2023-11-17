@@ -1,0 +1,237 @@
+"use client";
+import { COLORS , PATH} from "@/constants";
+import {
+  Container,
+  Button,
+  Box,
+  Grid,
+  Typography,
+  Stack,
+  Divider,
+  Modal,
+  Skeleton,
+} from "@mui/material";
+import { useState } from "react";
+import CopyURLButton from "@/containers/EditBlog/CopyURL";
+import DeleteBlogButton from "@/containers/EditBlog/DeleteBlogButton";
+import BlogEditor from "@/containers/BlogEditor/blogEditor";
+import Image from "next/image";
+import { Editor } from "@tiptap/react";
+import { useQuery } from "@tanstack/react-query";
+import getBlogById from "@/apiCaller/getBlogById";
+import Tiptap from "@/containers/BlogEditor/Tiptap";
+import CompanyCard from "@/containers/HomePage/CompanyCard";
+import { useSearchParams } from 'next/navigation'
+
+const style2 = {
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "500px",
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  pb: 5,
+};
+
+export default function BlockDetailPage() {
+
+  const searchParams = useSearchParams()
+  const blogIdString = searchParams.get('blogId')
+  const blogId = blogIdString ? parseInt(blogIdString) : null
+
+  const [editor, setEditor] = useState<Editor | null>(null);
+
+  const {data,isPending} = useQuery({
+    queryKey: ['getBlogDetail', blogId],
+    queryFn: ()=> blogId ? getBlogById(blogId) : undefined,
+  })
+
+  const getEditor = (editor: Editor) => {
+    setEditor(editor);
+  };
+
+  const createDate = (date: Date) => {
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
+
+  return(
+    <Stack 
+        direction={"row"} 
+        sx={{ p: 2 }} 
+        spacing={3} 
+        style={{ overflow: "hidden" }}
+        display={'flex'}
+        width={'100hw'}
+        justifyContent={'space-between'}
+      >
+        <Stack
+          display={'flex'}
+          flexGrow={1}
+          direction={"column"}
+          spacing={2}
+          px={'auto'}
+        >
+          <Box style={{ overflow: "hidden", overflowY: "scroll"}} height={"90VH"}>
+            <Stack 
+              style={{ borderRadius: "10px", overflow: "hidden" }}
+              flex={1}
+              height={"310px"}
+              position={'relative'}
+              mb={2}
+            >
+              {isPending ? 
+              <Skeleton 
+                variant="rounded" 
+                width={'100%'} 
+                height={'100%'}
+                animation="wave"
+              /> :
+              <Image
+                src={data?.response?.blogCover}
+                style={{ objectFit: "cover" }}
+                fill
+                alt="cover-image"
+              />
+              }
+            </Stack>
+            {/* tiptap */}
+
+            {isPending ? 
+            <Skeleton 
+              variant="rounded"
+              width={'100%'} 
+              height={'100%'} 
+              animation="wave"
+            /> 
+            : 
+              <Tiptap setEditor={getEditor} mode={'read'} jsonConten={JSON.parse(data?.response?.blogContent)}/>
+            }
+            
+
+          </Box>
+        </Stack>
+
+        <Stack
+          direction={"column"}
+          spacing={2}
+        >
+          <Stack
+            direction={"column"}
+            bgcolor={COLORS.PRIMARY}
+            borderRadius={"10px"}
+            sx={{ p: 2 }}
+          >
+            <Typography px={2} fontSize={"20px"} color={COLORS.WHITE}>
+              Reads
+            </Typography>
+            <Divider variant="middle" color={COLORS.WHITE} />
+            <Typography align={"center"} fontSize={"40px"} color={COLORS.WHITE}>
+              {isPending ? 
+                <Skeleton 
+                variant="text" 
+                width={'100%'} 
+                height={'100%'} 
+                animation="wave"
+                />
+                :
+                data?.response?.blogView
+              }
+            </Typography>
+          </Stack>
+          <Stack
+            direction={"column"}
+            color={COLORS.PRIMARY_LIGHT}
+            borderRadius={"10px"}
+            borderColor={COLORS.PRIMARY_LIGHT}
+            sx={{ p: 2, border: "1px solid" }}
+            spacing={2}
+          >
+            <Typography fontSize={"20px"}>
+              Created <br /> {
+                isPending ?
+                <Skeleton/>
+                :
+                createDate(new Date(data?.response?.blogCreateDate))
+              }
+            </Typography>
+            <Typography fontSize={"20px"}>
+              Last Edited <br /> {
+                isPending ?
+                <Skeleton/>
+                :
+                createDate(new Date(data?.response?.blogLastEdited ?? data?.response?.blogCreateDate))
+              }
+            </Typography>
+            <Divider variant="middle" color={COLORS.PRIMARY_LIGHT} />
+            <EditBlog blogId={blogId}/>
+          </Stack>
+          <CompanyCard />
+        </Stack>
+      </Stack>
+  );
+}
+
+interface EditBlogProps {
+  blogId: number | null;
+}
+
+export function EditBlog({blogId}:EditBlogProps) {
+  const [open, setOpen] = useState(false);
+  const [open1, setOpen1] = useState(false);
+  const [openLeave, setOpenLeave] = useState(false);
+  const handleClose1 = () => setOpen1(false);
+  const handleOpenLeave = () => setOpenLeave(true);
+  const handleCloseLeave = () => setOpenLeave(false);
+  const [openBlogEditModal, setOpenBlogEditModal] = useState<boolean>(false);
+
+  return (
+    <Stack spacing={2}>
+      <CopyURLButton blogId={blogId}/>
+      <BlogEditor 
+        mode={'write'} 
+        open={openBlogEditModal} 
+        onClose={()=>{setOpenBlogEditModal(false)}}
+        content={null}
+      />
+      
+      <Button
+        variant="outlined"
+        onClick={()=>{setOpenBlogEditModal(true)}}
+      >
+        Edit
+      </Button>
+
+      <Button
+        variant="outlined"
+        style={{ color: COLORS.DANGER, borderColor: COLORS.DANGER }}
+        onClick={handleOpenLeave}
+      >
+        Delete
+      </Button>
+      <Modal open={openLeave} onClose={handleClose1}>
+        <Box sx={style2} borderRadius={2}>
+          <Stack flex={1} alignItems={"center"} sx={{ pt: 10 }}>
+            <Stack color={COLORS.PRIMARY_DARK} sx={{ pl: 7, pr: 3 }}>
+              <Typography fontSize={20}>Do you want to delete?</Typography>
+              <Typography fontSize={20} color={COLORS.DANGER}>
+                All your unsaved change will be lost
+              </Typography>
+            </Stack>
+            <Stack sx={{ pt: 10 }} spacing={2}>
+              <DeleteBlogButton/>
+              <Button variant="outlined" onClick={handleCloseLeave}>
+                Cancel
+              </Button>
+            </Stack>
+          </Stack>
+        </Box>
+      </Modal>
+    </Stack>
+  );
+}

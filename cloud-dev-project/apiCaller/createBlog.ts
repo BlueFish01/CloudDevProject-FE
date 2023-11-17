@@ -13,11 +13,11 @@ export default async function createBlog(data:BlogFormModel){
 
     const formData = new FormData();
     formData.append('file', new Blob([data.file], { type: data.file.type }));
-    formData.append('json', {
+    formData.append('json', JSON.stringify({
         blogTitle: data.blogTitle,
         blogDescription: data.blogDescription,
         blogContent: data.blogContent,
-    });
+    }));
 
     const config: AxiosRequestConfig = {
         method: 'post',
@@ -30,8 +30,8 @@ export default async function createBlog(data:BlogFormModel){
     };
 
     try {
-        //const response = await axios(config);
-        const response = {data:{formData}}
+        const response = await axios(config);
+        //const response = {data:{formData}}
         return response.data;
 
     } catch (error) {

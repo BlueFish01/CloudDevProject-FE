@@ -122,7 +122,7 @@ function BlogEditor({
       topic: data.topic,
       description: data.description,
       coverImage: data.coverImage,
-      content: !!editor ? editor?.getJSON() : null,
+      content: !!editor ? editor?.getJSON() : {},
     };
     console.log(payload);
     if(mode === "write"){
@@ -130,7 +130,7 @@ function BlogEditor({
         file: payload.coverImage,
         blogTitle: payload.topic,
         blogDescription: payload.description,
-        blogContent: JSON.stringify(payload?.content),
+        blogContent: payload?.content,
       });
       setOpenConfirmCreateModel(true);
     }

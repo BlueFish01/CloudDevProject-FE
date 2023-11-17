@@ -4,5 +4,5 @@ export type BlogFormModel = {
     file: File;
     blogTitle: string;
     blogDescription : string;
-    blogContent: string;
+    blogContent: JSONContent;
 };
