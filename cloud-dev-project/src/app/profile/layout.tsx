@@ -66,6 +66,9 @@ export default function ProfileLayout({
   const [openEditProfileModal, setOpenEditProfileModal] =
     useState<boolean>(false);
 
+  // const responseDataAsString = JSON.stringify(response.userPicture);
+  const imageURL = response.userPicture;
+
   return (
     <Container maxWidth={false}>
       <NavBar>
@@ -112,7 +115,7 @@ export default function ProfileLayout({
                 fontWeight={800}
                 letterSpacing={"7px"}
               >
-                {response.userFname} {response.userLname}
+                {response.userFName} {response.userLName}
               </Typography>
               <Stack flexGrow={1} alignItems={"flex-end"} pr={3}>
                 <Typography
@@ -120,7 +123,7 @@ export default function ProfileLayout({
                   fontWeight={800}
                   letterSpacing={"8.4px"}
                 >
-                  {response.numOfBlog}
+                  {response.numberOfPost}
                 </Typography>
               </Stack>
             </Stack>
@@ -185,7 +188,7 @@ export default function ProfileLayout({
         <Stack direction={{ xs: "column" }} spacing={{ xs: 1, sm: 1 }}>
           <Stack sx={{ borderRadius: "10px" }} flex={1} alignItems={"flex-end"}>
             <Image
-              src={response.userPicture}
+              src={response.userPicture || imageURL}
               width={420}
               height={420}
               alt="Profile Picture"

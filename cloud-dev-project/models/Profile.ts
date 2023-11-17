@@ -1,9 +1,10 @@
 
 export type EditProfileModel = {
-    userFname: string;
-    userLname: string;
-    userCity: string;
-    userSocical : string[]
+    append: any;
+    userFName: string;
+    userLName: string;
+    userAddress: string;
+    userSocial : string[]
     userAbout: string;
 }
 
@@ -16,8 +17,8 @@ export type EditProfileModel = {
 export type getProfileModel = {
     userId?: number;
     username?: string;
-    userFname?: string;
-    userLname?: string;
+    userFName?: string;
+    userLName?: string;
     userEmail?: string;
     userSocial?: string[];
     userPicture?: string;
@@ -25,6 +26,6 @@ export type getProfileModel = {
     createDate?: Date;
     userStatus?: string;
     cuid?: string;
-    userCity: string;
-    numOfBlog: number;
+    userAddress: string;
+    numberOfPost: number;
 }
