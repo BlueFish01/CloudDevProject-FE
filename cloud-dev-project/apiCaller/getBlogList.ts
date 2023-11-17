@@ -1,6 +1,4 @@
-import axios, { AxiosRequestConfig } from 'axios'
-import { NextApiRequest, NextApiResponse } from 'next';
-//apply promise concept here
+import axios, { AxiosRequestConfig } from 'axios';
 
 export default async function getBlogList(sort: string, limit: number){
     

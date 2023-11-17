@@ -106,12 +106,21 @@ export default function UI_BlogDetail({
 
       </Stack>
 
-      <Stack direction={"row"} sx={{ p: 2 }} spacing={3} style={{ position: "static", overflow: "hidden" }}>
+      <Stack 
+        direction={"row"} 
+        sx={{ p: 2 }} 
+        spacing={3} 
+        style={{ overflow: "hidden" }}
+        display={'flex'}
+        width={'100hw'}
+        justifyContent={'space-between'}
+      >
         <Stack
+          display={'flex'}
+          flexGrow={1}
           direction={"column"}
           spacing={2}
-          width={'80%'}
-          px={20}
+          px={'auto'}
         >
           <Box style={{ overflow: "hidden", overflowY: "scroll"}} height={"90VH"}>
             <Stack style={{ borderRadius: "10px", overflow: "hidden" }}>
@@ -130,6 +139,7 @@ export default function UI_BlogDetail({
         <Stack
           direction={"column"}
           spacing={2}
+          bgcolor={COLORS.LIGHT_GRAY}
         >
           <Stack
             direction={"column"}

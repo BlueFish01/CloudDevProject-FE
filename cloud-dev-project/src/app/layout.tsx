@@ -22,9 +22,7 @@ export default function RootLayout({
     <html lang="en">
       <body suppressHydrationWarning={true} className={JetBrains.className}>
         <ThemeRegistry options={{ key: "mui" }}>
-          {/* <AuthProvider> */}
             <Providers>{children}</Providers>
-          {/* </AuthProvider> */}
         </ThemeRegistry>
       </body>
     </html>

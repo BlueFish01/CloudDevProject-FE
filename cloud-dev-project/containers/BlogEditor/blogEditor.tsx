@@ -22,8 +22,9 @@ import { Editor } from "@tiptap/react";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { set, useForm } from "react-hook-form";
-import { get } from "http";
-import { getRandomValues } from "crypto";
+import createBlog from "@/apiCaller/createBlog";
+import ConfirmDialog from "@/components/Dialog/confirmDialog";
+import { BlogFormModel } from "@/models";
 
 const style = {
   position: "absolute",
@@ -70,6 +71,8 @@ function BlogEditor({
   });
 
   const [editor, setEditor] = useState<Editor | null>(null);
+  const [openConfirmCreateModel, setOpenConfirmCreateModel] = useState<boolean>(false);
+  const [createBlogPayload, setCreateBlogPayload] = useState<BlogFormModel|null>(null); // [topic, description, coverImage, content
   const [currentCoverImage, setCurrentCoverImageCoverImage] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -101,6 +104,19 @@ function BlogEditor({
     reset({ "coverImage" : {}});
   }
 
+  const createBlogHandler = async() => {
+    console.log("create blog handler :", createBlogPayload);
+    try {
+      const response = await createBlog(createBlogPayload as BlogFormModel);
+      console.log('create blog successful', response);
+      setOpenConfirmCreateModel(false);
+      onClose();
+    }
+    catch (error) {
+      console.error('create blog failed', error);
+    }
+  }
+
   const onSubmitHandler = (data: any) => {
     const payload = {
       topic: data.topic,
@@ -109,13 +125,20 @@ function BlogEditor({
       content: !!editor ? editor?.getJSON() : null,
     };
     console.log(payload);
-    //call Api here
-    //success => redirect to home page
-    //fail => show error message
+    if(mode === "write"){
+      setCreateBlogPayload({
+        file: payload.coverImage,
+        blogTitle: payload.topic,
+        blogDescription: payload.description,
+        blogContent: JSON.stringify(payload?.content),
+      });
+      setOpenConfirmCreateModel(true);
+    }
   };
 
   return (
     <Modal open={open} onClose={()=>{}}>
+      <>
       <form onSubmit={handleSubmit(onSubmitHandler)}>
         <Box bgcolor={"white"} sx={style}>
           <Stack
@@ -264,6 +287,14 @@ function BlogEditor({
           </Stack>
         </Box>
       </form>
+      <ConfirmDialog
+        open={openConfirmCreateModel}
+        onClose={()=>{setOpenConfirmCreateModel(false)}}
+        onConfirm={createBlogHandler}
+        onCancel={()=>{setOpenConfirmCreateModel(false)}}
+        message={'create blog post?'}
+      />
+      </>
     </Modal>
   );
 }
