@@ -13,7 +13,6 @@ import {
 } from "@mui/material";
 import Image from "next/image";
 import NavBar from "@/containers/NevBar/NevBar";
-import EditProfileBT from "@/containers/EditProfile/EditProfile";
 import LogoutButton from "@/components/logoutButton/LogoutButton";
 import { useQuery } from "@tanstack/react-query";
 import getProfile from "@/apiCaller/getProfile";
@@ -73,7 +72,15 @@ export default function ProfileLayout({
         <LogoutButton />
       </NavBar>
 
-      <Typography variant="h5" pt={3} pl={2} color={COLORS.PRIMARY} fontSize={'16px'} fontWeight={500} letterSpacing={'2.8px'}>
+      <Typography
+        variant="h5"
+        pt={3}
+        pl={2}
+        color={COLORS.PRIMARY}
+        fontSize={"16px"}
+        fontWeight={500}
+        letterSpacing={"2.8px"}
+      >
         Profile
       </Typography>
 
@@ -105,7 +112,7 @@ export default function ProfileLayout({
                 fontWeight={800}
                 letterSpacing={"7px"}
               >
-                {response.userFname}  {response.userLname}
+                {response.userFname} {response.userLname}
               </Typography>
               <Stack flexGrow={1} alignItems={"flex-end"} pr={3}>
                 <Typography
@@ -113,13 +120,12 @@ export default function ProfileLayout({
                   fontWeight={800}
                   letterSpacing={"8.4px"}
                 >
-                  {/* {data?.numberOfBlog} */}
-                  12
+                  {response.numOfBlog}
                 </Typography>
               </Stack>
             </Stack>
             <Stack direction={"row"}>
-              <Typography variant="h4">{data?.city}</Typography>
+              <Typography variant="h4">{response.userCity}</Typography>
               <Stack flexGrow={1} alignItems={"flex-end"} pr={4}>
                 <Typography
                   variant="h2"
@@ -147,7 +153,13 @@ export default function ProfileLayout({
                 setOpenEditProfileModal(true);
               }}
             >
-              <Typography fontSize={'20px'} fontWeight={500} letterSpacing={'3.5'}>Edit Profile</Typography>
+              <Typography
+                fontSize={"20px"}
+                fontWeight={500}
+                letterSpacing={"3.5"}
+              >
+                Edit Profile
+              </Typography>
             </Button>
 
             <Modal
@@ -179,8 +191,10 @@ export default function ProfileLayout({
               alt="Profile Picture"
             />
           </Stack>
-          <Stack direction={"row"} justifyContent={'space-evenly'}>
-            <Typography variant="h4" fontSize={'20px'} fontWeight={500}>Follow on</Typography>
+          <Stack direction={"row"} justifyContent={"space-evenly"}>
+            <Typography variant="h4" fontSize={"20px"} fontWeight={500}>
+              Follow on
+            </Typography>
             <Stack direction={"row"} columnGap={2}>
               {socialMedia.map((item, index) => (
                 <IconButton

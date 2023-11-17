@@ -74,18 +74,14 @@ const schema = yup.object().shape({
   About: yup.string(),
 });
 
-
 type TValidFormProps = {
-  initdata : getProfileModel | null | undefined;
-}
+  initdata: getProfileModel | null | undefined;
+};
 
-function ValidateForm({
-  initdata,
-}:TValidFormProps) {
+function ValidateForm({ initdata }: TValidFormProps) {
   const [open, setOpen] = React.useState(false);
   const [open1, setOpen1] = React.useState(false);
   const [open2, setOpen2] = React.useState(false);
-  const [openLeave, setOpenLeave] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const handleOpen1 = () => setOpen1(true);
@@ -104,14 +100,21 @@ function ValidateForm({
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
-      Name : `${initdata?.userFname} ${initdata?.userLname}`,
-      City : initdata?.userCity,
-
+      // Name : `${initdata?.userFname} ${initdata?.userLname}`,
+      Name: initdata?.userFname,
+      Surname: initdata?.userLname,
+      City: initdata?.userCity,
+      // IG: Array.isArray(initdata?.userSocial) ? initdata?.userSocial.join(', ') : initdata?.userSocial,
+      IG: Array.isArray(initdata?.userSocial) ? initdata?.userSocial[0] : initdata?.userSocial,
+      Discord: Array.isArray(initdata?.userSocial) ? initdata?.userSocial[1] : initdata?.userSocial,
+      About: initdata?.userAbout,
     },
   });
 
   const onSubmitHandler = (formdata: EditProfileModel) => {
     console.log(formdata);
+    //convert data
+    //sent api with coinverted data
     setData(formdata);
     setApi(true);
     setTimeout(() => {
@@ -147,12 +150,6 @@ function ValidateForm({
     refreshPage();
   };
 
-  const leave = () => {
-    // Your click event handler code here
-    console.log("Button clicked");
-    handleClose();
-    refreshPage();
-  };
   return (
     <form onSubmit={handleSubmit(onSubmitHandler)}>
       <Stack sx={{ p: 2 }} spacing={4}>

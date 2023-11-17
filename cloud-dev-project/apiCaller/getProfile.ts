@@ -24,10 +24,10 @@ export default async function getProfile(){
                 profileImage : 'https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg?size=626&ext=jpg&ga=GA1.1.44546679.1699920000&semt=ais',
                 userFname : 'Kritsakorn',
                 userLname : 'Sripuritanont',
-                city : 'Pathumthani',
-                socialLink : ['Dis','IG'],
-                about : 'Hello',
-                numberOfBlog : 10
+                userCity : 'Pathumthani',
+                userSocial : ['pigeonIG','pigeonDis'],
+                userAbout : 'Hello',
+                numOfBlog : 10
                 }}
               }
             return response.data;

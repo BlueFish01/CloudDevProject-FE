@@ -1,9 +1,9 @@
 import axios from 'axios'
 import { useCookies } from 'react-cookie';
-import {LoginFormModel} from '../models/loginModel';
+import {getProfileModel} from '../models/Profile';
 
 
-export default async function LoginApi(data:LoginFormModel) {
+export default async function editProfile(data:getProfileModel) {
 
     const url = process.env.NEXT_PUBLIC_AUTH_URL;
 

@@ -1,13 +1,17 @@
 
 export type EditProfileModel = {
-    Name: string;
-    Surname: string;
-    City: string;
-    IG?: string;
-    Discord?: string;
-    LinkedIn?: string;
-    About?: string;
+    userFname: string;
+    userLname: string;
+    userCity: string;
+    userSocical : string[]
+    userAbout: string;
 }
+
+// const  payload:EditProfileModel = {
+//     userFname : FormData.name,
+//     ...,
+//     userSocical : ["IG": formdata?.IG ? "","FaceBon"]
+// }
 
 export type getProfileModel = {
     userId?: number;
@@ -22,4 +26,5 @@ export type getProfileModel = {
     userStatus?: string;
     cuid?: string;
     userCity: string;
+    numOfBlog: number;
 }
