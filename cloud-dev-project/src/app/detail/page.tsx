@@ -10,6 +10,7 @@ import {
   Divider,
   Modal,
   Skeleton,
+  Link,
 } from "@mui/material";
 import { useState } from "react";
 import CopyURLButton from "@/containers/EditBlog/CopyURL";
@@ -22,6 +23,11 @@ import getBlogById from "@/apiCaller/getBlogById";
 import Tiptap from "@/containers/BlogEditor/Tiptap";
 import CompanyCard from "@/containers/HomePage/CompanyCard";
 import { useSearchParams } from 'next/navigation'
+import ConfirmDialog from "@/components/Dialog/confirmDialog";
+import deleteBlog from "@/apiCaller/deleteBlog";
+import Alert from "@/components/Alert/alert";
+import { useRouter } from "next/navigation";
+import {BlogResponseModel} from '@/models';
 
 const style2 = {
   position: "absolute" as "absolute",
@@ -43,7 +49,7 @@ export default function BlockDetailPage() {
 
   const [editor, setEditor] = useState<Editor | null>(null);
 
-  const {data,isPending} = useQuery({
+  const {data, isPending, isError} = useQuery({
     queryKey: ['getBlogDetail', blogId],
     queryFn: ()=> blogId ? getBlogById(blogId) : undefined,
   })
@@ -78,42 +84,68 @@ export default function BlockDetailPage() {
           px={'auto'}
         >
           <Box style={{ overflow: "hidden", overflowY: "scroll"}} height={"90VH"}>
-            <Stack 
-              style={{ borderRadius: "10px", overflow: "hidden" }}
-              flex={1}
-              height={"310px"}
-              position={'relative'}
-              mb={2}
-            >
+            {isError ? 
+              <Box 
+                flexGrow={1} 
+                justifyContent={'center'} 
+                alignContent={'center'}
+                display={'flex'}
+                height={'100%'}
+              >
+                <Box justifyContent={'center'} alignItems={'center'} display={'flex'} flexDirection={'column'}>
+                  <Typography>
+                    Blog not found
+                  </Typography>
+                  <Link href={PATH.HOME}>
+                    Go Back Home
+                  </Link>
+                </Box>
+
+              </Box>
+            :
+            <>
+              <Stack 
+                style={{ borderRadius: "10px", overflow: "hidden" }}
+                flex={1}
+                height={"310px"}
+                position={'relative'}
+                mb={2}
+              >
+                {isPending ? 
+                <Skeleton 
+                  variant="rounded" 
+                  width={'100%'} 
+                  height={'100%'}
+                  animation="wave"
+                /> :
+                <Image
+                  src={data?.response?.blogCover}
+                  style={{ objectFit: "cover" }}
+                  fill
+                  alt="cover-image"
+                />
+                }
+              </Stack>
+              {/* tiptap */}
+
+              <Typography variant="h1" fontSize={'32px'}>{data?.response?.blogTitle}</Typography>
+              <Typography sx={{ color : COLORS.PRIMARY_LIGHT }}>{data?.response?.blogDescription}</Typography>
+              <Typography> </Typography>
+              <Typography sx={{ color : COLORS.PRIMARY_LIGHT }}>Author : {data?.response?.ownerUserName}</Typography>
+
               {isPending ? 
               <Skeleton 
-                variant="rounded" 
+                variant="rounded"
                 width={'100%'} 
-                height={'100%'}
+                height={'100%'} 
                 animation="wave"
-              /> :
-              <Image
-                src={data?.response?.blogCover}
-                style={{ objectFit: "cover" }}
-                fill
-                alt="cover-image"
-              />
+              /> 
+              : 
+                <Tiptap setEditor={getEditor} mode={'read'} jsonConten={JSON.parse(data?.response?.blogContent)}/>
               }
-            </Stack>
-            {/* tiptap */}
-
-            {isPending ? 
-            <Skeleton 
-              variant="rounded"
-              width={'100%'} 
-              height={'100%'} 
-              animation="wave"
-            /> 
-            : 
-              <Tiptap setEditor={getEditor} mode={'read'} jsonConten={JSON.parse(data?.response?.blogContent)}/>
+            </>
             }
-            
-
+          
           </Box>
         </Stack>
 
@@ -169,7 +201,7 @@ export default function BlockDetailPage() {
               }
             </Typography>
             <Divider variant="middle" color={COLORS.PRIMARY_LIGHT} />
-            <EditBlog blogId={blogId}/>
+            <EditBlog apidata={data?.response} blogId={blogId}/>
           </Stack>
           <CompanyCard />
         </Stack>
@@ -179,22 +211,49 @@ export default function BlockDetailPage() {
 
 interface EditBlogProps {
   blogId: number | null;
+  apidata : BlogResponseModel
 }
 
-export function EditBlog({blogId}:EditBlogProps) {
-  const [open, setOpen] = useState(false);
-  const [open1, setOpen1] = useState(false);
+export function EditBlog({blogId, apidata}:EditBlogProps) {
+  const [openAlert, setOpenAlert] = useState(false);
+  const [openErrorAlert, setOpenErrorAlert] = useState(false);
   const [openLeave, setOpenLeave] = useState(false);
-  const handleClose1 = () => setOpen1(false);
   const handleOpenLeave = () => setOpenLeave(true);
   const handleCloseLeave = () => setOpenLeave(false);
   const [openBlogEditModal, setOpenBlogEditModal] = useState<boolean>(false);
+  const router = useRouter();
+
+  console.log("Blog data",apidata)
+
+  const deleteBlogHandler = async () => {
+    if(blogId){
+      try {
+        const response = await deleteBlog(blogId);
+        if(response.status_code === 200){
+          console.log("Delete Blog success", response);
+          setOpenAlert(true);
+          setTimeout(() => {
+            router.replace(PATH.HOME)
+          }, 1000);
+        }
+        else{
+          console.log("Delete Blog fail", response)
+          setOpenErrorAlert(true)
+          
+        }
+      }catch(error){
+        console.log("Delete Blog fail",error)
+        setOpenErrorAlert(true)
+      }
+    }
+  };
 
   return (
     <Stack spacing={2}>
       <CopyURLButton blogId={blogId}/>
       <BlogEditor 
-        mode={'write'} 
+        mode={'edit'}
+        data={apidata}
         open={openBlogEditModal} 
         onClose={()=>{setOpenBlogEditModal(false)}}
         content={null}
@@ -214,24 +273,26 @@ export function EditBlog({blogId}:EditBlogProps) {
       >
         Delete
       </Button>
-      <Modal open={openLeave} onClose={handleClose1}>
-        <Box sx={style2} borderRadius={2}>
-          <Stack flex={1} alignItems={"center"} sx={{ pt: 10 }}>
-            <Stack color={COLORS.PRIMARY_DARK} sx={{ pl: 7, pr: 3 }}>
-              <Typography fontSize={20}>Do you want to delete?</Typography>
-              <Typography fontSize={20} color={COLORS.DANGER}>
-                All your unsaved change will be lost
-              </Typography>
-            </Stack>
-            <Stack sx={{ pt: 10 }} spacing={2}>
-              <DeleteBlogButton/>
-              <Button variant="outlined" onClick={handleCloseLeave}>
-                Cancel
-              </Button>
-            </Stack>
-          </Stack>
-        </Box>
-      </Modal>
+      <ConfirmDialog
+        open={openLeave}
+        onClose={handleCloseLeave}
+        message={"Are you sure you want to delete this blog?"}
+        onConfirm={deleteBlogHandler}
+        onCancel={handleCloseLeave}
+        confirmColor={COLORS.DANGER}
+      />
+      <Alert
+        message={"Blog deleted"}
+        type={"error"}
+        open={openAlert}
+        handleClose={()=>{}}
+      />
+      <Alert
+        message={"Delete Blog fail"}
+        type={"error"}
+        open={openErrorAlert}
+        handleClose={()=>{setOpenErrorAlert(false)}}
+      />
     </Stack>
   );
 }

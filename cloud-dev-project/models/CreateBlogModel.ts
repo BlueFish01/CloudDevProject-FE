@@ -6,3 +6,10 @@ export type BlogFormModel = {
     blogDescription : string;
     blogContent: JSONContent;
 };
+
+export type EditBlogFormModel = {
+    blogId?: number;
+    blogTitle: string;
+    blogDescription : string;
+    blogContent: JSONContent;
+};

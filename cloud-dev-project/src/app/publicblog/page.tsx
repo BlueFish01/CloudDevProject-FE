@@ -10,6 +10,7 @@ import {
   Divider,
   Modal,
   Skeleton,
+  Link,
 } from "@mui/material";
 import { useState } from "react";
 import CopyURLButton from "@/containers/EditBlog/CopyURL";
@@ -43,7 +44,7 @@ export default function PublicBlockPage() {
 
   const [editor, setEditor] = useState<Editor | null>(null);
 
-  const {data,isPending} = useQuery({
+  const {data,isPending, isError} = useQuery({
     queryKey: ['getBlogDetail', blogId],
     queryFn: ()=> blogId ? getBlogById(blogId) : undefined,
   })
@@ -78,39 +79,61 @@ export default function PublicBlockPage() {
           px={'auto'}
         >
           <Box style={{ overflow: "hidden", overflowY: "scroll"}} height={"90VH"}>
-            <Stack 
-              style={{ borderRadius: "10px", overflow: "hidden" }}
-              flex={1}
-              height={"310px"}
-              position={'relative'}
-              mb={2}
-            >
+          {isError ? 
+              <Box 
+                flexGrow={1} 
+                justifyContent={'center'} 
+                alignContent={'center'}
+                display={'flex'}
+                height={'100%'}
+              >
+                <Box justifyContent={'center'} alignItems={'center'} display={'flex'} flexDirection={'column'}>
+                  <Typography>
+                    Blog not found
+                  </Typography>
+                  <Link href={PATH.HOME}>
+                    Go Back Home
+                  </Link>
+                </Box>
+
+              </Box>
+            :
+            <>
+              <Stack 
+                style={{ borderRadius: "10px", overflow: "hidden" }}
+                flex={1}
+                height={"310px"}
+                position={'relative'}
+                mb={2}
+              >
+                {isPending ? 
+                <Skeleton 
+                  variant="rounded" 
+                  width={'100%'} 
+                  height={'100%'}
+                  animation="wave"
+                /> :
+                <Image
+                  src={data?.response?.blogCover}
+                  style={{ objectFit: "cover" }}
+                  fill
+                  alt="cover-image"
+                />
+                }
+              </Stack>
+              {/* tiptap */}
+
               {isPending ? 
               <Skeleton 
-                variant="rounded" 
+                variant="rounded"
                 width={'100%'} 
-                height={'100%'}
+                height={'100%'} 
                 animation="wave"
-              /> :
-              <Image
-                src={data?.response?.blogCover}
-                style={{ objectFit: "cover" }}
-                fill
-                alt="cover-image"
-              />
+              /> 
+              : 
+                <Tiptap setEditor={getEditor} mode={'read'} jsonConten={JSON.parse(data?.response?.blogContent)}/>
               }
-            </Stack>
-            {/* tiptap */}
-
-            {isPending ? 
-            <Skeleton 
-              variant="rounded"
-              width={'100%'} 
-              height={'100%'} 
-              animation="wave"
-            /> 
-            : 
-              <Tiptap setEditor={getEditor} mode={'read'} jsonConten={JSON.parse(data?.response?.blogContent)}/>
+            </>
             }
             
 

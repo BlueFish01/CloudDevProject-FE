@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { Stack, Typography, Box, Button, Grid, CircularProgress } from "@mui/material";
-import { COLORS } from "@/constants";
+import { COLORS, PATH } from "@/constants";
 import BlogCard from "@/containers/HomePage/BlogCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
@@ -76,7 +76,7 @@ export default function HomePage() {
                   >
                     <Link
                       //href={`/detail/${item.blogId.toString()}`}
-                      href={{pathname:"/detail",
+                      href={{pathname:PATH.BLOGDETAIL,
                         query: {blogId: item.blogId}
                       }}
                       style={{ textDecoration: "none" }}
