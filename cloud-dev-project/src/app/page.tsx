@@ -1,20 +1,20 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
-import { COLORS } from '@/constants'
+"use client";
+import { CookiesProvider } from 'react-cookie';
+import React, { useEffect, useState } from "react";
 import { 
   Container,
-  Button,
   Box,
 } from '@mui/material';
 
 function page() {
   return (
-    <Container>
-      <Box flex={1} height={'100vh'}  display={'flex'} justifyContent={'center'} alignItems={'center'}>
-        <Button variant={"contained"} size={"medium"}>Click Me</Button>
-      </Box>
-      
-    </Container>
+    <CookiesProvider>
+        <Container>
+          <Box flex={1} height={'100vh'}  display={'flex'} justifyContent={'center'} alignItems={'center'}>
+            {/* <Loading/> */}
+          </Box>  
+        </Container> 
+    </CookiesProvider>
   );
 }
 

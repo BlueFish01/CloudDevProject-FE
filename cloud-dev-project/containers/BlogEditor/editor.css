@@ -1,0 +1,88 @@
+.editor {
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  min-height: 200px;
+}
+
+.editor:focus {
+  outline: none;
+}
+
+/* Style the editor content area */
+.editor .ProseMirror {
+  background-color: #f9f9f9;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+/* Style headings */
+.editor h1 {
+  font-size: 24px;
+  margin-top: 0;
+}
+
+.editor h2 {
+  font-size: 20px;
+  margin-top: 0;
+}
+
+/* Style paragraphs */
+.editor p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: #757575; /* Gray */
+}
+
+.hljs-variable,
+.hljs-template-variable,
+.hljs-attribute,
+.hljs-tag,
+.hljs-name,
+.hljs-regexp,
+.hljs-link,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class {
+  color: #f2816b; /* Coral */
+}
+
+.hljs-number,
+.hljs-meta,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params {
+  color: #f9ae58; /* Tangerine */
+}
+
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet {
+  color: #85e89d; /* Mint */
+}
+
+.hljs-title,
+.hljs-section {
+  color: #e5e678; /* Lemon */
+}
+
+.hljs-keyword,
+.hljs-selector-tag {
+  color: #6ec1f6; /* Sky Blue */
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: 700; /* Bold */
+}

@@ -1,5 +1,11 @@
 body {
   overscroll-behavior-y: none;
   overscroll-behavior-x: none;
+  ::-webkit-scrollbar {
+    width: 0;
+    background: transparent; /* make scrollbar transparent */
+  }
 }
+
+
 

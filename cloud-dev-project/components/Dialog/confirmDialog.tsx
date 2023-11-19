@@ -90,7 +90,14 @@ const ConfirmDialog = (props: IProps) => {
           <Button
             variant="contained"
             onClick={handleConfirm}
-            sx={{color:confirmColor}}
+            sx={{
+              color:confirmColor,
+              backgroundColor:confirmColor,
+              '&:hover':{
+                backgroundColor:confirmColor,
+                filter: "brightness(95%)",
+              },
+            }}
             fullWidth
           >
             <Typography color={COLORS.WHITE}>{confirmText}</Typography>
