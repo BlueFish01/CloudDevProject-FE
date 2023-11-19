@@ -25,6 +25,8 @@ import { useQuery } from "@tanstack/react-query";
 import getProfile from "@/apiCaller/getProfile";
 import { AxiosRequestConfig } from "axios";
 import axios from "axios";
+import editProfile from "@/apiCaller/editProfile";
+import ConfirmDialog from "@/components/Dialog/confirmDialog";
 
 const style2 = {
   position: "absolute" as "absolute",
@@ -91,6 +93,8 @@ function ValidateForm({ initdata }: TValidFormProps) {
   const handleOpen2 = () => setOpen2(true);
   const handleClose2 = () => setOpen2(false);
 
+  const [OpenConfirmEdit, setOpenConfirmEdit] = useState(false);
+
   const [data, setData] = useState<EditProfileModel | null>(null);
   const [api, setApi] = useState(false);
 
@@ -102,103 +106,61 @@ function ValidateForm({ initdata }: TValidFormProps) {
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
-      // Name : `${initdata?.userFname} ${initdata?.userLname}`,
       Name: initdata?.userFName,
       Surname: initdata?.userLName,
       City: initdata?.userAddress,
-      // IG: Array.isArray(initdata?.userSocial) ? initdata?.userSocial.join(', ') : initdata?.userSocial,
-      IG: Array.isArray(initdata?.userSocial)
-        ? initdata?.userSocial[0]
-        : initdata?.userSocial,
-      Discord: Array.isArray(initdata?.userSocial)
-        ? initdata?.userSocial[1]
-        : initdata?.userSocial,
+      IG: initdata?.userSocial ? initdata?.userSocial[0] : "",
+      Discord: initdata?.userSocial ? initdata?.userSocial[1] : "",
+      LinkedIn: initdata?.userSocial ? initdata?.userSocial[2] : "",
       About: initdata?.userAbout,
     },
   });
 
-  function convertFormDataToEditProfile(formData: FormData): EditProfileModel {
-    const userFName = formData.get('userFName') as string;
-    const userLName = formData.get('userLName') as string;
-    const userAddress = formData.get('userAddress') as string;
-    const userSocial = (formData.get('userSocial') as string).split(','); // Assuming userSocial is comma-separated
-    const userAbout = formData.get('userAbout') as string;
-  
-    return {
-      userFName,
-      userLName,
-      userAddress,
-      userSocial,
-      userAbout,
-    };
-  }
-  
-  const onSubmitHandler = async (formdata: EditProfileModel) => {
-    // const authToken = await fetch("http://localhost:3000/api/auth");
-    // const token = await authToken.json();
-    // const Bearertoken = "Bearer " + token.value;
-    // try {
-    //   // Make a POST request to the API endpoint with the updated data
-    //   const response = await fetch(
-    //     " http://devlog-res-test-env.eba-mjqi25dd.us-east-1.elasticbeanstalk.com/api/user/edit-profile",
-    //     {
-    //       method: "PUT",
-    //       headers: {
-    //         'Authorization': Bearertoken,
-    //         "Content-Type": "application/json",
-    //         // Add any necessary authorization headers here
-    //       },
-    //       body: JSON.stringify(formdata), // Convert formdata to JSON string
-    //     }
-    //   );
+  type Tformdata = {
+    Name?: string;
+    Surname?: string;
+    City?: string;
+    IG?: string;
+    Discord?: string;
+    LinkedIn?: string;
+    About?: string;
+  };
 
-    //   if (!response.ok) {
-    //     console.log("Fetch data success")
+  const [editProfilePayload, setEditProfilePayload] =
+    useState<EditProfileModel | null>({});
 
-    //     throw new Error("Failed to update profile");
-    //   }
-
-    //   // If the update was successful
-    //   const responseData = await response.json();
-    //   console.log("Profile updated:", responseData);
-
-    //   // Handle success - open modal or show success message
-    //   handleOpen1(); // Open success modal or show success message
-    //   // refreshPage(); // Refresh the page or perform other actions
-    // } catch (error) {
-    //   console.log("Fetch data failed")
-    //   console.error("Error updating profile:", error);
-    //   // Handle error - show error message or perform necessary actions
-    // }
-    const url = process.env.NEXT_PUBLIC_API_URL + "/api/user/edit-profile";
-    const authToken = await fetch("http://localhost:3000/api/auth");
-    const token = await authToken.json();
-    const Bearertoken = "Bearer " + token.value;
-
-    formdata.append("userFName", "John");
-    formdata.append("userLName", "Doe");
-    formdata.append("userAddress", "123 Main St");
-    formdata.append("userSocial", "instagram,twitter"); // Example for multiple socials separated by comma
-    formdata.append("userAbout", "This is a test description.");
-
-
-    const config: AxiosRequestConfig = {
-      method: "post",
-      url: url,
-      maxBodyLength: Infinity,
-      headers: {
-        Authorization: Bearertoken,
-      },
-      data: formdata,
-    };
-
+  const editProfileHandler = async () => {
+    console.log("Edit Profile");
     try {
-      const response = await axios(config);
-      //const response = {data:{formData}}
-      return response.data;
-    } catch (error) {
-      throw error;
+      if (editProfilePayload) {
+        const response = await editProfile(editProfilePayload);
+        if (response.status === "success") {
+          console.log("Success", response);
+          refreshPage();
+        } else {
+          console.log("Error", response);
+        }
+      }
+    } catch (Error) {
+      console.log(Error);
     }
+  };
+
+  const onSubmitHandler = (formdata: Tformdata) => {
+    setOpenConfirmEdit(true);
+    const payload: EditProfileModel = {
+      userFName: formdata?.Name ?? "",
+      userLName: formdata?.Surname ?? "",
+      userSocial: [
+        formdata?.IG ?? "",
+        formdata?.Discord ?? "",
+        formdata?.LinkedIn ?? "",
+      ],
+      userAddress: formdata?.City ?? "",
+      userAbout: formdata?.About ?? "",
+    };
+    console.log("Payload:", payload);
+    setEditProfilePayload(payload);
   };
 
   const refreshPage = () => {
@@ -213,7 +175,6 @@ function ValidateForm({ initdata }: TValidFormProps) {
   };
 
   const successfully = () => {
-    // Your click event handler code here
     console.log(data);
     console.log("Button clicked");
     handleOpen2();
@@ -325,6 +286,19 @@ function ValidateForm({ initdata }: TValidFormProps) {
             <Button variant="outlined" type="submit">
               Save
             </Button>
+            <ConfirmDialog
+              open={OpenConfirmEdit}
+              message="Confirm Dialog"
+              confirmText="Confirm"
+              cancelText="Cancel"
+              onConfirm={editProfileHandler}
+              onClose={() => {
+                setOpenConfirmEdit(false);
+              }}
+              onCancel={() => {
+                setOpenConfirmEdit(false);
+              }}
+            />
             <Modal open={open1} onClose={handleClose1}>
               <Box sx={style2} borderRadius={2}>
                 <Stack flex={1} alignItems={"center"} sx={{ pt: 10 }}>

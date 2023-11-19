@@ -1,64 +1,42 @@
-import axios from 'axios'
+import axios, { AxiosRequestConfig } from 'axios'
 import { useCookies } from 'react-cookie';
-import {getProfileModel} from '../models/Profile';
+import {EditProfileModel, getProfileModel} from '../models/Profile';
 import ValidateForm from '@/src/app/profile/page';
+import { number } from 'yup';
 
-// export default async function editProfile(data:getProfileModel) {
+export default async function editProfile(data:EditProfileModel){
+    const url = process.env.NEXT_PUBLIC_API_URL+'/api/user/edit-profile'
 
-//     const url = process.env.NEXT_PUBLIC_AUTH_URL;
-    
+    const authToken = await fetch('http://localhost:3000/api/auth');
+    const token = await authToken.json();
+    const Bearertoken = 'Bearer '+token.value;
 
-//     const config = {
-//         method: 'post',
-//         url: url,
-//         headers: { 
-//             'Content-Type': 'application/json'
-//         },
-//         data : data
-//     };
+    const formData = new FormData();
+    formData.append('json', JSON.stringify({
+        userFName : data.userFName,
+        userLName: data.userLName,
+        // userSocial: data.userSocial,
+        userAbout: data.userAbout,
+        userAddress: data.userAddress,
+    }));
 
-//     try {
-//         const response = await axios(config);
-//         // const response = {data :{result:{authToken:"1234567890"}}};
-
-//         return response.data;
-
-//     } catch (error) {
-//         throw error;
-//     }
-
-// }
-export default async function editProfile(data:getProfileModel) {
-    // Example data to update
-    const updatedData = {
-        
-    };
-    
-    // API endpoint where you want to update data
-    const apiUrl = 'https://api.example.com/data'; // Replace with your API endpoint
-    
-    // Make a POST request to update the data
-    fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-        'Content-Type': 'application/json',
-        // Add any necessary authorization headers here
-        // 'Authorization': 'Bearer YOUR_ACCESS_TOKEN',
+    const config: AxiosRequestConfig = {
+        method: 'put',
+        url: url,
+        maxBodyLength: Infinity,
+        headers: { 
+            'Authorization': Bearertoken,
         },
-        body: JSON.stringify(updatedData),
-    })
-        .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok.');
-        }
-        return response.json();
-        })
-        .then(data => {
-        console.log('Data updated successfully:', data);
-        // Handle the updated data as needed
-        })
-        .catch(error => {
-        console.error('Error updating data:', error);
-        // Handle errors
-        });
+        data: formData,
+    };
+
+    try {
+        const response = await axios(config);
+        //const response = {data:{formData}}
+        return response.data;
+
+    } catch (error) {
+        throw error;
     }
+
+}

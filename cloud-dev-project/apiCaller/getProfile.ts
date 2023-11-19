@@ -20,7 +20,7 @@ export default async function getProfile(){
         try {
             const response = await axios(config);
             // const response = { data: {
-            //   response: {
+            // response: {
             //     userPicture : 'https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg?size=626&ext=jpg&ga=GA1.1.44546679.1699920000&semt=ais',
             //     userFName : 'Kritsakorn',
             //     userLame : 'Sripuritanont',
@@ -29,7 +29,7 @@ export default async function getProfile(){
             //     userAbout : 'Hello',
             //     numberOfPost : 10
             //     }}
-            //   }
+            // }
             return response.data;
     
         } catch (error) {

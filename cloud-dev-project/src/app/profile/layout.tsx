@@ -16,7 +16,7 @@ import NavBar from "@/containers/NevBar/NevBar";
 import LogoutButton from "@/components/logoutButton/LogoutButton";
 import { useQuery } from "@tanstack/react-query";
 import getProfile from "@/apiCaller/getProfile";
-import { getProfileModel } from "@/models";
+import { EditProfileModel, getProfileModel } from "@/models";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   IconDefinition,
@@ -60,14 +60,12 @@ export default function ProfileLayout({
     queryKey: ["getProfile"],
     queryFn: () => getProfile(),
   });
-
   const { response }: { response: getProfileModel } = data || { response: {} };
+  
+  // const {editProfile}: { editProfile: EditProfileModel} = data;
 
   const [openEditProfileModal, setOpenEditProfileModal] =
     useState<boolean>(false);
-
-  // const responseDataAsString = JSON.stringify(response.userPicture);
-  const imageURL = response.userPicture;
 
   return (
     <Container maxWidth={false}>
@@ -128,7 +126,7 @@ export default function ProfileLayout({
               </Stack>
             </Stack>
             <Stack direction={"row"}>
-              <Typography variant="h4">{response.userCity}</Typography>
+              <Typography variant="h4">{response.userAddress}</Typography>
               <Stack flexGrow={1} alignItems={"flex-end"} pr={4}>
                 <Typography
                   variant="h2"
@@ -188,7 +186,7 @@ export default function ProfileLayout({
         <Stack direction={{ xs: "column" }} spacing={{ xs: 1, sm: 1 }}>
           <Stack sx={{ borderRadius: "10px" }} flex={1} alignItems={"flex-end"}>
             <Image
-              src={response.userPicture || imageURL}
+              src={response.userPicture}
               width={420}
               height={420}
               alt="Profile Picture"
