@@ -23,11 +23,7 @@ import getBlogById from "@/apiCaller/getBlogById";
 import Tiptap from "@/containers/BlogEditor/Tiptap";
 import CompanyCard from "@/containers/HomePage/CompanyCard";
 import { useSearchParams } from 'next/navigation'
-import ConfirmDialog from "@/components/Dialog/confirmDialog";
-import deleteBlog from "@/apiCaller/deleteBlog";
-import Alert from "@/components/Alert/alert";
-import { useRouter } from "next/navigation";
-import {BlogResponseModel} from '@/models';
+import EditBlog from "@/containers/EditBlog/SideBarEditBlog";
 
 const style2 = {
   position: "absolute" as "absolute",
@@ -206,93 +202,5 @@ export default function BlockDetailPage() {
           <CompanyCard />
         </Stack>
       </Stack>
-  );
-}
-
-interface EditBlogProps {
-  blogId: number | null;
-  apidata : BlogResponseModel
-}
-
-export function EditBlog({blogId, apidata}:EditBlogProps) {
-  const [openAlert, setOpenAlert] = useState(false);
-  const [openErrorAlert, setOpenErrorAlert] = useState(false);
-  const [openLeave, setOpenLeave] = useState(false);
-  const handleOpenLeave = () => setOpenLeave(true);
-  const handleCloseLeave = () => setOpenLeave(false);
-  const [openBlogEditModal, setOpenBlogEditModal] = useState<boolean>(false);
-  const router = useRouter();
-
-  console.log("Blog data",apidata)
-
-  const deleteBlogHandler = async () => {
-    if(blogId){
-      try {
-        const response = await deleteBlog(blogId);
-        if(response.status_code === 200){
-          console.log("Delete Blog success", response);
-          setOpenAlert(true);
-          setTimeout(() => {
-            router.replace(PATH.HOME)
-          }, 1000);
-        }
-        else{
-          console.log("Delete Blog fail", response)
-          setOpenErrorAlert(true)
-          
-        }
-      }catch(error){
-        console.log("Delete Blog fail",error)
-        setOpenErrorAlert(true)
-      }
-    }
-  };
-
-  return (
-    <Stack spacing={2}>
-      <CopyURLButton blogId={blogId}/>
-      <BlogEditor 
-        mode={'edit'}
-        data={apidata}
-        open={openBlogEditModal} 
-        onClose={()=>{setOpenBlogEditModal(false)}}
-        content={null}
-      />
-      
-      <Button
-        variant="outlined"
-        onClick={()=>{setOpenBlogEditModal(true)}}
-      >
-        Edit
-      </Button>
-
-      <Button
-        variant="outlined"
-        style={{ color: COLORS.DANGER, borderColor: COLORS.DANGER }}
-        onClick={handleOpenLeave}
-      >
-        Delete
-      </Button>
-      <ConfirmDialog
-        open={openLeave}
-        onClose={handleCloseLeave}
-        message={"Are you sure you want to delete this blog?"}
-        onConfirm={deleteBlogHandler}
-        onCancel={handleCloseLeave}
-        confirmColor={COLORS.DANGER}
-      />
-      <Alert
-        message={"Blog deleted"}
-        type={"error"}
-        open={openAlert}
-        handleClose={()=>{}}
-      />
-      <Alert
-        message={"Delete Blog fail"}
-        type={"error"}
-        open={openErrorAlert}
-        handleClose={()=>{setOpenErrorAlert(false)}}
-      />
-    </Stack>
   );
 }

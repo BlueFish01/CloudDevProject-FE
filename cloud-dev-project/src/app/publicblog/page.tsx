@@ -24,6 +24,7 @@ import Tiptap from "@/containers/BlogEditor/Tiptap";
 import CompanyCard from "@/containers/HomePage/CompanyCard";
 import { useSearchParams } from 'next/navigation'
 
+
 const style2 = {
   position: "absolute" as "absolute",
   top: "50%",
@@ -192,7 +193,9 @@ export default function PublicBlockPage() {
               }
             </Typography>
             <Divider variant="middle" color={COLORS.PRIMARY_LIGHT} />
-            <EditBlog blogId={blogId}/>
+            <Stack spacing={2}>
+              <CopyURLButton blogId={blogId}/>
+            </Stack>
           </Stack>
           <CompanyCard />
         </Stack>
@@ -200,15 +203,3 @@ export default function PublicBlockPage() {
   );
 }
 
-interface EditBlogProps {
-  blogId: number | null;
-}
-
-export function EditBlog({blogId}:EditBlogProps) {
-
-  return (
-    <Stack spacing={2}>
-      <CopyURLButton blogId={blogId}/>
-    </Stack>
-  );
-}
