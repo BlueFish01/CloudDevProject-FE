@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   Modal,
   Box,
@@ -18,12 +18,14 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 import Image from "next/image";
 import Tiptap from "./Tiptap";
-import { Editor } from "@tiptap/react";
+import { Editor, useEditor } from "@tiptap/react";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { set, useForm } from "react-hook-form";
-import { get } from "http";
-import { getRandomValues } from "crypto";
+import createBlog from "@/apiCaller/createBlog";
+import ConfirmDialog from "@/components/Dialog/confirmDialog";
+import {BlogResponseModel,EditBlogFormModel,BlogFormModel} from "@/models";
+import editBlog from "@/apiCaller/editBlog";
 
 const style = {
   position: "absolute",
@@ -42,7 +44,7 @@ const style = {
 const schema = yup.object().shape({
   topic: yup.string().required("Topic is required"),
   description: yup.string(),
-  coverImage: yup.mixed().nullable().required("CoverImage is required"),
+  coverImage: yup.mixed().nullable(),
 });
 
 type BlogEditorProps = {
@@ -50,6 +52,7 @@ type BlogEditorProps = {
   onClose: () => void;
   mode: "edit" | "write";
   content?: object | null;
+  data?: BlogResponseModel;
 };
 
 function BlogEditor({ 
@@ -57,6 +60,7 @@ function BlogEditor({
   onClose,
   mode,
   content,
+  data,
 }: BlogEditorProps) {
   const {
     register,
@@ -70,14 +74,12 @@ function BlogEditor({
   });
 
   const [editor, setEditor] = useState<Editor | null>(null);
+  const [openConfirmCreateModel, setOpenConfirmCreateModel] = useState<boolean>(false);
+  const [createBlogPayload, setCreateBlogPayload] = useState<BlogFormModel|null>(null);
+  const [EditBlogPayload,setEditBlogPayload] = useState<EditBlogFormModel|null>(null);
   const [currentCoverImage, setCurrentCoverImageCoverImage] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const formHandler = (event: React.FormEvent) => {
-    event.preventDefault();
-    const json = !!editor ? editor?.getJSON() : null;
-    console.log(json);
-  };
+  const [openConfirmEditModel, setOpenConfirmEditModel] = useState<boolean>(false);
 
   const getEditor = (editor: Editor) => {
     setEditor(editor);
@@ -101,21 +103,59 @@ function BlogEditor({
     reset({ "coverImage" : {}});
   }
 
-  const onSubmitHandler = (data: any) => {
-    const payload = {
-      topic: data.topic,
-      description: data.description,
-      coverImage: data.coverImage,
-      content: !!editor ? editor?.getJSON() : null,
-    };
-    console.log(payload);
-    //call Api here
-    //success => redirect to home page
-    //fail => show error message
+  const createBlogHandler = async() => {
+    console.log("create blog handler :", createBlogPayload);
+    try {
+      const response = await createBlog(createBlogPayload as BlogFormModel);
+      console.log('create blog successful', response);
+      setOpenConfirmCreateModel(false);
+      onClose();
+      window.location.reload();
+    }
+    catch (error) {
+      console.error('create blog failed', error);
+    }
+  }
+
+  const editBlogHandler = async() => {
+    console.log("edit blog handler :", EditBlogPayload);
+    try {
+      const response = await editBlog(EditBlogPayload as EditBlogFormModel);
+      console.log('edit blog successful', response);
+      setOpenConfirmEditModel(false);
+      onClose();
+      window.location.reload();
+    }
+    catch (error) {
+      console.error('edit blog failed', error);
+    }
+  }
+
+  const onSubmitHandler = (formdata: any) => {
+    console.log("submit handler :", data);
+    if(mode === "write"){
+      setCreateBlogPayload({
+        file: formdata.coverImage,
+        blogTitle: formdata.topic,
+        blogDescription: formdata.description,
+        blogContent: !!editor ? editor?.getJSON() : {},
+      });
+      setOpenConfirmCreateModel(true);
+    }
+    else if(mode === "edit"){
+      setEditBlogPayload({
+        blogId: data?.blogId,
+        blogTitle: formdata.topic,
+        blogDescription: formdata.description,
+        blogContent: !!editor ? editor?.getJSON() : {},
+      });
+      setOpenConfirmEditModel(true);
+    }
   };
 
   return (
     <Modal open={open} onClose={()=>{}}>
+      <>
       <form onSubmit={handleSubmit(onSubmitHandler)}>
         <Box bgcolor={"white"} sx={style}>
           <Stack
@@ -164,7 +204,7 @@ function BlogEditor({
                 display={"flex"}
                 flexDirection={"column"}
               >
-                {currentCoverImage ? (
+                {(currentCoverImage && mode=='write') ? (
                   <>
                     <img
                       src={URL.createObjectURL(getValues("coverImage") as Blob)}
@@ -187,6 +227,17 @@ function BlogEditor({
                   </>
                 ) : (
                   <>
+                    {(!currentCoverImage && mode=='edit') ? 
+                    <img
+                      src={data?.blogCover}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        borderRadius: "10px",
+                      }}
+                    />
+                    : <>
                     <Button
                       variant="contained"
                       sx={{
@@ -207,13 +258,16 @@ function BlogEditor({
                         </Typography>
                       </Stack>
                     </Button>
-                    <input
-                      type="file"
-                      accept=".jpg, .jpeg, .png" // Define accepted file types
-                      style={{ display: "none" }}
-                      ref={fileInputRef}
-                      onChange={handleFileChange}
-                    />
+                      <input
+                        type="file"
+                        accept=".jpg, .jpeg, .png" // Define accepted file types
+                        style={{ display: "none" }}
+                        ref={fileInputRef}
+                        onChange={handleFileChange}
+                      />
+                    </>
+                    }
+                    
                   </>
                 )}
               </Box>
@@ -224,6 +278,7 @@ function BlogEditor({
                   label="Topic"
                   type="text"
                   error={!!errors.topic?.message}
+                  defaultValue={data?.blogTitle ?? ''}
                   fullWidth
                 />
                 <TextField
@@ -234,13 +289,14 @@ function BlogEditor({
                   error={false}
                   sx={{ height: "100%" }}
                   inputProps={{ style: { height: "130px" } }}
+                  defaultValue={data?.blogDescription ?? ''}
                   multiline
                   fullWidth
                 />
               </Stack>
             </Stack>
 
-            <Tiptap setEditor={getEditor} mode={mode}/>
+            <Tiptap setEditor={getEditor} mode={mode} jsonConten={JSON.parse(data?.blogContent ?? "{}")}/>
 
             <Stack
               justifyContent={"flex-end"}
@@ -264,6 +320,21 @@ function BlogEditor({
           </Stack>
         </Box>
       </form>
+      <ConfirmDialog
+        open={openConfirmCreateModel}
+        onClose={()=>{setOpenConfirmCreateModel(false)}}
+        onConfirm={createBlogHandler}
+        onCancel={()=>{setOpenConfirmCreateModel(false)}}
+        message={'create blog post?'}
+      />
+      <ConfirmDialog
+        open={openConfirmEditModel}
+        onClose={()=>{setOpenConfirmEditModel(false)}}
+        onConfirm={editBlogHandler}
+        onCancel={()=>{setOpenConfirmEditModel(false)}}
+        message={'edit blog post?'}
+      />
+      </>
     </Modal>
   );
 }

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEditor, ReactNodeViewRenderer, EditorContent, Editor } from '@tiptap/react'
+import { useEditor, ReactNodeViewRenderer, EditorContent, Editor, JSONContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import './editor.css'; // Import your custom CSS
 import { Button, Stack, colors, Box } from '@mui/material';
@@ -16,7 +16,7 @@ import { useState } from 'react';
 type TiptapProps = {
   setEditor: (editor:Editor) => void;
   mode? : "edit" | "read" | "write";
-  jsonConten? : object;
+  jsonConten? : JSONContent;
 }
 
 const lowlight = createLowlight(common)

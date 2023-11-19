@@ -115,7 +115,7 @@ function Login() {
                 },
               }}
             >
-              Forgot password?
+              <Link href="https://devlog.auth.us-east-1.amazoncognito.com/forgotPassword?response_type=code&client_id=reqk646491s71irk87m2bs027&redirect_uri=https://localhost">Forgot password?</Link>
             </Typography>
           </ButtonBase>
         </Stack>
@@ -140,7 +140,7 @@ function Login() {
               color={COLORS.PRIMARY}
               sx={{ textDecoration: "underline", cursor: "pointer" }}
             >
-              Sign up
+              <Link href="https://devlog.auth.us-east-1.amazoncognito.com/signup?response_type=code&client_id=reqk646491s71irk87m2bs027&redirect_uri=https://localhost">Sign up</Link>
             </Typography>
           </ButtonBase>
         </Stack>
