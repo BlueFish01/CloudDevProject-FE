@@ -95,8 +95,11 @@ function ValidateForm({ initdata }: TValidFormProps) {
 
   const [OpenConfirmEdit, setOpenConfirmEdit] = useState(false);
 
-  const [data, setData] = useState<EditProfileModel | null>(null);
-  const [api, setApi] = useState(false);
+  const { data, isPending } = useQuery({
+    queryKey: ["getProfile"],
+    queryFn: () => getProfile(),
+  });
+  const { response }: { response: getProfileModel } = data || { response: {} };
 
   const {
     register,
@@ -175,7 +178,7 @@ function ValidateForm({ initdata }: TValidFormProps) {
   };
 
   const successfully = () => {
-    console.log(data);
+    // console.log(data);
     console.log("Button clicked");
     handleOpen2();
     refreshPage();
@@ -237,7 +240,7 @@ function ValidateForm({ initdata }: TValidFormProps) {
           </Stack>
           <Stack alignContent={"flex-end"}>
             <Image
-              src="/UIProfile.png"
+              src={response.userPicture}
               width={200}
               height={200}
               alt="Profile Picture"
