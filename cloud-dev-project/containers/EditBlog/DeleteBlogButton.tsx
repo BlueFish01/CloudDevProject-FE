@@ -38,7 +38,7 @@ const DeleteBlogButton: React.FC = () => {
       <Alert
         message={"Blog deleted"}
         type={"error"}
-        open={openNoti}
+        open={true}
         handleClose={()=>{setOpenNoti(false)}}
       />
     </Stack>

@@ -27,28 +27,22 @@ const NotiBoxStyle = {
   pl: 5,
 };
 
-const CopyURLButton: React.FC = () => {
-  const [copied, setCopied] = useState(false);
+interface CopyURLButtonProps {
+  blogId: number | null;
+}
+
+const CopyURLButton = ({blogId}:CopyURLButtonProps) => {
   const [openNoti, setOpenNoti] = useState(false);
   const handleOpenNoti = () => setOpenNoti(true);
   const handleCloseNoti = () => setOpenNoti(false);
 
-  const refreshPage = () => {
-    const success = true;
-    setTimeout(() => {
-      if (success) {
-        window.location.reload();
-      } else {
-        console.error("API call failed");
-      }
-    }, 1500);
-  };
-
   const handleCopyClick = () => {
+    const customPath = '/publicblog';
+    const customQuery = `blogId=${blogId}`; // Customize your query parameters
+    const customUrl = `${window.location.origin}${customPath}?${customQuery}`;
     handleOpenNoti();
-    copy(window.location.href)
+    copy(customUrl)
       .then(() => {
-        setCopied(true);
       })
       .catch((error) => {
         console.error("Failed to copy URL:", error);

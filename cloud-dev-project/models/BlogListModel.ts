@@ -7,7 +7,7 @@ export type BlogResponseModel = {
     blogTitle: string;
     blogCover: string;
     blogDescription: string;
-    blogContent: string | null;
+    blogContent: string;
     blogView: number;
     blogCreateDate: string;
     blogEditDate: string | null;
