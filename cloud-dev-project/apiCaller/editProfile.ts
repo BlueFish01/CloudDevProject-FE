@@ -15,7 +15,7 @@ export default async function editProfile(data:EditProfileModel){
     formData.append('json', JSON.stringify({
         userFName : data.userFName,
         userLName: data.userLName,
-        // userSocial: data.userSocial,
+        userSocial: data.userSocial,
         userAbout: data.userAbout,
         userAddress: data.userAddress,
     }));
