@@ -15,12 +15,6 @@ export type EditProfileModel = {
     numberOfPost?: number;
 }
 
-// const  payload:EditProfileModel = {
-//     userFname : FormData.name,
-//     ...,
-//     userSocical : ["IG": formdata?.IG ? "","FaceBon"]
-// }
-
 export type getProfileModel = {
     userId?: number;
     username?: string;
