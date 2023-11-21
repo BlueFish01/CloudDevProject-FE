@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { COLORS, PATH } from "@/constants";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
@@ -13,13 +13,17 @@ import {
   Box,
   ButtonBase,
   Link,
+  Backdrop,
   FormHelperText,
+  CircularProgress,
 } from "@mui/material";
 import { LoginFormModel } from "@/models";
 
 import { useRouter } from "next/navigation";
 import LoginApi from "@/apiCaller/login";
 import { useCookies } from 'react-cookie';
+import ConfirmDialog from "@/components/Dialog/confirmDialog";
+import Alert from "@/components/Alert/alert";
 
 
 const schema = yup.object().shape({
@@ -31,6 +35,10 @@ function Login() {
   
   const router = useRouter();
   const [cookies, setCookie] = useCookies(['authToken']);
+  const [wrongPassError, setWrongPassError] = useState<boolean>(false);
+  const [openWrongPassDialog, setOpenWrongPassDialog] = useState<boolean>(false);
+  const [openLoading,setOpenLoading] = useState<boolean>(false);
+  const [openSuccessAlert, setOpenSuccessAlert] = useState<boolean>(false);
 
   const {
     register,
@@ -47,13 +55,17 @@ function Login() {
   }
 
   const loginHandler = async(data: LoginFormModel) => {
+    setOpenLoading(true)
     try {
       const response = await LoginApi(data);
+      setOpenLoading(false);
       console.log('Login successful', response);
       addCookie(response.result.accessToken);
-
     }catch (error) {
+      setOpenLoading(false);
       console.error('Login failed', error);
+      setWrongPassError(true);
+      setOpenWrongPassDialog(true);
     }
   }; 
 
@@ -70,7 +82,8 @@ function Login() {
             {...register("email")}
             name="email"
             label="email"
-            error={!!errors.email}
+            error={!!errors.email || wrongPassError}
+            onChange={() => {setWrongPassError(false)}}
             fullWidth
           />
 
@@ -90,7 +103,8 @@ function Login() {
             name="password"
             label="password"
             type="password"
-            error={!!errors.password}
+            error={!!errors.password || wrongPassError}
+            onChange={() => {setWrongPassError(false)}}
             fullWidth
           />
 
@@ -145,6 +159,19 @@ function Login() {
           </ButtonBase>
         </Stack>
       </Stack>
+      <ConfirmDialog
+        open={openWrongPassDialog}
+        message="Wrong password or email !"
+        onConfirm={() => {setOpenWrongPassDialog(false)}}
+        onClose={() => {setOpenWrongPassDialog(false)}}
+      />
+      <Alert open={openSuccessAlert} type={'success'} message={'login success redirect to home'} handleClose={()=>{}}/>
+      {openLoading && <Backdrop
+        sx={{ color: '#fff', zIndex: 999}}
+        open={true}   
+        >
+        <CircularProgress sx={{color:COLORS.PRIMARY_LIGHT}} />
+    </Backdrop>}
     </form>
   );
 }

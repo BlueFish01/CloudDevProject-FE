@@ -10,6 +10,7 @@ import {
   Divider,
   IconButton,
   Modal,
+  Skeleton,
 } from "@mui/material";
 import Image from "next/image";
 import NavBar from "@/containers/NevBar/NevBar";
@@ -183,12 +184,25 @@ export default function ProfilePage() {
         {/* Right Stack */}
         <Stack direction={{ xs: "column" }} spacing={{ xs: 1, sm: 1 }}>
           <Stack sx={{ borderRadius: "10px" }} flex={1} alignItems={"flex-end"}>
+            {isPending ? 
+              <Box 
+              width={420}
+              height={420}
+              pr={2}
+              >
+                <Skeleton variant="rounded" 
+                  width={'100%'} 
+                  height={'100%'}
+                  animation="wave"
+                />
+              </Box>
+              :
             <Image
               src={response?.userPicture ?? ''}
               width={420}
               height={420}
               alt="Profile Picture"
-            />
+            />}
           </Stack>
           <Stack direction={"row"} justifyContent={"space-evenly"}>
             <Typography variant="h4" fontSize={"20px"} fontWeight={500}>

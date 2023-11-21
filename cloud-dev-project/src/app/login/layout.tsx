@@ -10,7 +10,7 @@ export default function LoginLayout({children}: {children: React.ReactNode;}) {
           <Grid item xs={8}>
 						<Box pt={6} pl={3}>
 							<Typography  variant={'h1'} color={COLORS.PRIMARY}>
-								DEV<br/>WLOG
+								DEV<br/>BLOG
 							</Typography>
 						</Box>
 						<Box display={'flex'} flex={1} justifyContent={'center'} alignItems={'center'}>
