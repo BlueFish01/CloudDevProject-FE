@@ -1,12 +1,10 @@
 import axios, { AxiosRequestConfig } from 'axios';
 
-export default async function getBlogList(sort: string, limit: number){
+export default async function getBlogList(sort: string, limit: number, token: string){
     
         const url = process.env.NEXT_PUBLIC_API_URL+`/api/blog/blog-list?sort=${sort}&limit=${limit}`
 
-        const authToken = await fetch('/api/auth');
-        const authTokenJson = await authToken.json();
-        const Bearertoken = 'Bearer '+authTokenJson.message;
+        const Bearertoken = 'Bearer '+token;
 
         const config: AxiosRequestConfig = {
             method: 'get',

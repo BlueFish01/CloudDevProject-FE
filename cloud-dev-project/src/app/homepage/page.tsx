@@ -12,16 +12,19 @@ import Link from "next/link";
 import { useQuery } from '@tanstack/react-query';
 import getBlogList from '@/apiCaller/getBlogList';
 import {BlogResponseModel} from '@/models';
+import { useCookies } from 'react-cookie';
+
 const filter: string[] = ["latest", "popular", "oldest"];
 
 export default function HomePage() {
   const [seletedButton, setSelectedButton] = useState<string>("latest");
-  const [limit, setLimit] = useState<number>(5);
+  const [limit, setLimit] = useState<number>(10);
+  const [cookies, setCookie, removeCookie] = useCookies(['authToken']);
   const [openBlogEditModal, setOpenBlogEditModal] = useState<boolean>(false);
 
   const { data , isPending, isError } = useQuery({
-    queryKey: ['getBlogList', seletedButton, limit],
-    queryFn: ()=>getBlogList(seletedButton,limit),
+    queryKey: ['getBlogList', seletedButton, limit, cookies.authToken],
+    queryFn: ()=>getBlogList(seletedButton,limit,cookies.authToken),
   })
 
   const {response}:{ response : BlogResponseModel[] } = data || {response:[]}; 
