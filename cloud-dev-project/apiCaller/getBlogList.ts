@@ -5,8 +5,8 @@ export default async function getBlogList(sort: string, limit: number){
         const url = process.env.NEXT_PUBLIC_API_URL+`/api/blog/blog-list?sort=${sort}&limit=${limit}`
 
         const authToken = await fetch('/api/auth');
-        const token = await authToken.json();
-        const Bearertoken = 'Bearer '+token.value;
+        const authTokenJson = await authToken.json();
+        const Bearertoken = 'Bearer '+authTokenJson.message;
 
         const config: AxiosRequestConfig = {
             method: 'get',
