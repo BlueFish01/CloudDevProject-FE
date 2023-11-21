@@ -55,6 +55,7 @@ export default function HomePage() {
                 flexDirection={'column'}
                 rowGap={2}
               >
+
                 {isError ? 
                   <>
                     <FontAwesomeIcon icon={faTriangleExclamation} size='2xl' color={COLORS.DANGER}/>

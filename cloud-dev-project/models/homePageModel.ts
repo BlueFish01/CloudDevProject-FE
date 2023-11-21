@@ -1,3 +1,4 @@
+
 export type TNewsModel = {
     title: string;
     content: string;

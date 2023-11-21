@@ -92,6 +92,7 @@ function EditorMenuButton({editor}: any) {
           <FontAwesomeIcon icon={faHeading} size='lg'/>
         </ToggleButton>
 
+
         <ToggleButton
           data-testid={"code-block-button"} 
           value="code"
