@@ -4,12 +4,10 @@ import { BlogFormModel } from '@/models';
 
 
 
-export default async function createBlog(data:BlogFormModel){
+export default async function createBlog(data:BlogFormModel,token:string){
     const url = process.env.NEXT_PUBLIC_API_URL+'/api/blog/create-blog'
 
-    const authToken = await fetch('http://localhost:3000/api/auth');
-    const token = await authToken.json();
-    const Bearertoken = 'Bearer '+token.value;
+    const Bearertoken = 'Bearer '+token
 
     const formData = new FormData();
     formData.append('file', new Blob([data.file], { type: data.file.type }));

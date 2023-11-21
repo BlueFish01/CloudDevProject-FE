@@ -26,6 +26,7 @@ import createBlog from "@/apiCaller/createBlog";
 import ConfirmDialog from "@/components/Dialog/confirmDialog";
 import {BlogResponseModel,EditBlogFormModel,BlogFormModel} from "@/models";
 import editBlog from "@/apiCaller/editBlog";
+import { useCookies } from 'react-cookie';
 
 const style = {
   position: "absolute",
@@ -80,6 +81,7 @@ function BlogEditor({
   const [currentCoverImage, setCurrentCoverImageCoverImage] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [openConfirmEditModel, setOpenConfirmEditModel] = useState<boolean>(false);
+  const [cookie, setCookie, removeCookie] = useCookies(['authToken']);
 
   const getEditor = (editor: Editor) => {
     setEditor(editor);
@@ -106,7 +108,7 @@ function BlogEditor({
   const createBlogHandler = async() => {
     console.log("create blog handler :", createBlogPayload);
     try {
-      const response = await createBlog(createBlogPayload as BlogFormModel);
+      const response = await createBlog(createBlogPayload as BlogFormModel, cookie.authToken);
       console.log('create blog successful', response);
       setOpenConfirmCreateModel(false);
       onClose();
@@ -120,7 +122,7 @@ function BlogEditor({
   const editBlogHandler = async() => {
     console.log("edit blog handler :", EditBlogPayload);
     try {
-      const response = await editBlog(EditBlogPayload as EditBlogFormModel);
+      const response = await editBlog(EditBlogPayload as EditBlogFormModel, cookie.authToken);
       console.log('edit blog successful', response);
       setOpenConfirmEditModel(false);
       onClose();

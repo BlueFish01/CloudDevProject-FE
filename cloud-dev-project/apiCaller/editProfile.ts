@@ -4,12 +4,10 @@ import {EditProfileModel, getProfileModel} from '../models/Profile';
 import ValidateForm from '@/src/app/profile/page';
 import { number } from 'yup';
 
-export default async function editProfile(data:EditProfileModel){
+export default async function editProfile(data:EditProfileModel, token:string){
     const url = process.env.NEXT_PUBLIC_API_URL+'/api/user/edit-profile'
 
-    const authToken = await fetch('http://localhost:3000/api/auth');
-    const token = await authToken.json();
-    const Bearertoken = 'Bearer '+token.value;
+    const Bearertoken = 'Bearer '+token;
 
     const formData = new FormData();
     formData.append('json', JSON.stringify({
