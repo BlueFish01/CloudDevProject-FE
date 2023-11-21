@@ -6,7 +6,7 @@ import { EditBlogFormModel } from '@/models';
 export default async function editBlog(data:EditBlogFormModel){
     const url = process.env.NEXT_PUBLIC_API_URL+'/api/blog/edit-blog'
 
-    const authToken = await fetch('http://localhost:3000/api/auth');
+    const authToken = await fetch('http://127.0.0.1:3000/api/auth');
     const token = await authToken.json();
     const Bearertoken = 'Bearer '+token.value;
 
