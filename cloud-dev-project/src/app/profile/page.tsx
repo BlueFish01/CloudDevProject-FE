@@ -27,6 +27,7 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import { useState } from "react";
 import ValidateForm from "@/containers/EditProfile/ValidateForm";
+import { useCookies } from "react-cookie";
 
 const styleEditProfile = {
   position: "absolute" as "absolute",
@@ -52,10 +53,12 @@ const socialMedia: TSocialMedia[] = [
 ];
 
 export default function ProfilePage() {
+
+  const [cookie, setCookie, removeCookie] = useCookies(["authToken"]);
   
   const { data, isPending } = useQuery({
     queryKey: ["getProfile"],
-    queryFn: () => getProfile(),
+    queryFn: () => getProfile(cookie.authToken),
   });
   const { response }: { response: getProfileModel } = data || { response: {} };
   
