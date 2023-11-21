@@ -29,6 +29,7 @@ function LogoutButton() {
   return (
     <>
     <Button
+        data-testid={"logout-button"}
         variant="outlined"
         endIcon={<FontAwesomeIcon icon={faArrowRightFromBracket} size='xs'/>}
         sx={{

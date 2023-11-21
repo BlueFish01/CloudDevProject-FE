@@ -216,6 +216,7 @@ function BlogEditor({
                       }}
                     />
                     <IconButton
+                      data-testid={"drop-cover-image"}
                       sx={{position:'absolute', top:0, right:0}}
                       onClick={dropCurrentCoverImage}
                     >
@@ -309,6 +310,7 @@ function BlogEditor({
                 cancle
               </Button>
               <Button
+                data-testid={"create-blog-submit-button"}
                 variant={"contained"}
                 fullWidth
                 size={"small"}
