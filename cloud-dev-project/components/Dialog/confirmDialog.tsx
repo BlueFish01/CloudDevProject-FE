@@ -88,6 +88,7 @@ const ConfirmDialog = (props: IProps) => {
       <DialogActions sx={{ justifyContent: "center", px: 2, pb: 4, pt: 0 }}>
         <Stack sx={{ width: '100%' }} spacing={1} alignItems={'center'}>
           <Button
+            data-test="confirm-button"
             variant="contained"
             onClick={handleConfirm}
             sx={{
@@ -104,7 +105,7 @@ const ConfirmDialog = (props: IProps) => {
           </Button>
 
           {typeof onCancel === "function" ? (
-            <Button variant="outlined" sx={{color:cancelColor}} onClick={onCancel} fullWidth>
+            <Button data-test="cancle-button" variant="outlined" sx={{color:cancelColor}} onClick={onCancel} fullWidth>
               {cancelText}
             </Button>
           ) : null}

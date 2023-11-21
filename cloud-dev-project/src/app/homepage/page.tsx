@@ -109,6 +109,7 @@ export default function HomePage() {
         pr={2}
       >
         <Button
+          data-testid={"open-blog-editor-button"}
           sx={{ width: "100%" }}
           variant="contained"
           startIcon={<FontAwesomeIcon icon={faPenToSquare} />}

@@ -9,7 +9,7 @@ export default function LoginLayout({children}: {children: React.ReactNode;}) {
         <Grid container>
           <Grid item xs={8}>
 						<Box pt={6} pl={3}>
-							<Typography  variant={'h1'} color={COLORS.PRIMARY}>
+							<Typography variant={'h1'} color={COLORS.PRIMARY}>
 								DEV<br/>BLOG
 							</Typography>
 						</Box>

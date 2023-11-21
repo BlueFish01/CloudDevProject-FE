@@ -23,6 +23,7 @@ const BlogCard = ({
   
   return (
     <Stack
+      data-testid={"blog-card"}
       flexGrow={1}
       height={"100%"}
       borderRadius={"10px"}
