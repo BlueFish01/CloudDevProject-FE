@@ -11,6 +11,6 @@ export async function GET(request: NextRequest) {
         },
         body: JSON.stringify({ ...authToken })
     }
-    // return new Response(JSON.stringify({ ...authToken }));
-    return res;
+    return new Response(JSON.stringify({ ...authToken }));
+    //return res;
 }
