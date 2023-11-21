@@ -129,7 +129,7 @@ function Login() {
                 },
               }}
             >
-              <Link href="https://devlog.auth.us-east-1.amazoncognito.com/forgotPassword?response_type=code&client_id=reqk646491s71irk87m2bs027&redirect_uri=https://localhost">Forgot password?</Link>
+              <Link href="https://devlog.auth.us-east-1.amazoncognito.com/forgotPassword?response_type=code&client_id=reqk646491s71irk87m2bs027&redirect_uri=https://hotfixloginpage.d398ap61k3x46d.amplifyapp.com/">Forgot password?</Link>
             </Typography>
           </ButtonBase>
         </Stack>
@@ -154,7 +154,7 @@ function Login() {
               color={COLORS.PRIMARY}
               sx={{ textDecoration: "underline", cursor: "pointer" }}
             >
-              <Link href="https://devlog.auth.us-east-1.amazoncognito.com/signup?response_type=code&client_id=reqk646491s71irk87m2bs027&redirect_uri=https://localhost">Sign up</Link>
+              <Link href="https://devlog.auth.us-east-1.amazoncognito.com/signup?response_type=code&client_id=reqk646491s71irk87m2bs027&redirect_uri=https://hotfixloginpage.d398ap61k3x46d.amplifyapp.com/">Sign up</Link>
             </Typography>
           </ButtonBase>
         </Stack>
