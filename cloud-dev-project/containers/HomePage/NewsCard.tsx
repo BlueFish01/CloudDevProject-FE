@@ -5,15 +5,15 @@ import { TNewsModel } from "@/models";
 function NewsCard() {
   const news: TNewsModel[] = [
     {
-      title: "title 1",
-      content: "content 1",
-      author: "author 1",
+      title: "fix bug version 2.1p",
+      content: "fix content not show up on homepage",
+      author: "dev team",
       createDate: "12/12/2021",
     },
     {
-      title: "title 2",
-      content: "content 2",
-      author: "author 2",
+      title: "update version 2.0",
+      content: "add filter buttons on homepage",
+      author: "dev team",
       createDate: "12/12/2021",
     },
   ];

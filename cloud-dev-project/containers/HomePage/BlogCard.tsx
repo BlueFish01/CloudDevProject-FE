@@ -13,6 +13,14 @@ const BlogCard = ({
   cardDetail
 }: BlogCardProps) => {
   const {blogCover,blogTitle,blogView,blogCreateDate,blogDescription} = cardDetail;
+
+  const date = new Date(blogCreateDate);
+  const blogCreateDateFormated = date.toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+  
   return (
     <Stack
       flexGrow={1}
@@ -44,7 +52,7 @@ const BlogCard = ({
             <FontAwesomeIcon icon={faEye} color={COLORS.PRIMARY_LIGHT} />
             <Typography color={COLORS.PRIMARY_LIGHT}>{blogView}</Typography>
           </Stack>
-          <Typography color={COLORS.PRIMARY_LIGHT}>{blogCreateDate}</Typography>
+          <Typography color={COLORS.PRIMARY_LIGHT}>{blogCreateDateFormated}</Typography>
         </Stack>
       </Stack>
     </Stack>

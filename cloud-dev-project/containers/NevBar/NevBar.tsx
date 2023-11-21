@@ -27,7 +27,7 @@ const NavBar = ({ children, ...props }: NavBarProps) => {
           <Typography variant={"h2"} color={COLORS.WHITE}>
             DEV
             <br />
-            WLOG
+            BLOG
           </Typography>
         </Link>
         <Typography>{children}</Typography>

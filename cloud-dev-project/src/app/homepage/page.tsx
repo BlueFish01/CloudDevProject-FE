@@ -4,7 +4,7 @@ import { Stack, Typography, Box, Button, Grid, CircularProgress } from "@mui/mat
 import { COLORS, PATH } from "@/constants";
 import BlogCard from "@/containers/HomePage/BlogCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPen, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import { faTriangleExclamation, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import NewsCard from "@/containers/HomePage/NewsCard";
 import CompanyCard from "@/containers/HomePage/CompanyCard";
 import BlogEditor from "@/containers/BlogEditor/blogEditor";
@@ -19,7 +19,7 @@ export default function HomePage() {
   const [limit, setLimit] = useState<number>(5);
   const [openBlogEditModal, setOpenBlogEditModal] = useState<boolean>(false);
 
-  const { data , isPending } = useQuery({
+  const { data , isPending, isError } = useQuery({
     queryKey: ['getBlogList', seletedButton, limit],
     queryFn: ()=>getBlogList(seletedButton,limit),
   })
@@ -46,7 +46,7 @@ export default function HomePage() {
               ))}
             </Stack>
 
-            {isPending ? (
+            {isPending || isError ? (
               <Box 
                 display={'flex'}
                 height={'80vh'}
@@ -55,13 +55,22 @@ export default function HomePage() {
                 flexDirection={'column'}
                 rowGap={2}
               >
-                <CircularProgress
-                  thickness={5}
-                  sx={{transition: 'ease-in-out 500ms'}}
-                />
-                <Typography variant="h2" color={COLORS.PRIMARY_LIGHT}>
-                  Loading...
-                </Typography>
+                {isError ? 
+                  <>
+                    <FontAwesomeIcon icon={faTriangleExclamation} size='2xl' color={COLORS.DANGER}/>
+                    <Typography sx={{color:COLORS.DANGER}}>Server Error</Typography>
+                  </> 
+                  :
+                <>
+                  <CircularProgress
+                    thickness={5}
+                    sx={{transition: 'ease-in-out 500ms'}}
+                  />
+                  <Typography variant="h2" color={COLORS.PRIMARY_LIGHT}>
+                    Loading...
+                  </Typography>
+                </>
+                }
               </Box>
             ) : (
               <Grid container width={"100%"}>
