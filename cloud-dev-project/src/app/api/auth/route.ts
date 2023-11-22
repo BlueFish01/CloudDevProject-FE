@@ -6,3 +6,4 @@ export async function GET(request: NextRequest) {
     console.log(authToken);
     return NextResponse.json({ message : authToken });
 }
+

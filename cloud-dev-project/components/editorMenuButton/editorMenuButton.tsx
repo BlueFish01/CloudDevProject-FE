@@ -92,7 +92,8 @@ function EditorMenuButton({editor}: any) {
           <FontAwesomeIcon icon={faHeading} size='lg'/>
         </ToggleButton>
 
-        <ToggleButton 
+        <ToggleButton
+          data-testid={"code-block-button"} 
           value="code"
           onClick={() => editor.chain().focus().toggleCodeBlock().run()}
           selected={editor?.isActive('codeBlock')}
