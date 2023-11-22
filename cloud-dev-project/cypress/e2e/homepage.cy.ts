@@ -15,15 +15,15 @@ describe('Homepage test', () => {
   it('Homepage should work', () => {
     //homepage show blog card
     cy.visit('/homepage')
-    // cy.url().should('include', '/homepage');
-    // cy.wait(5000);
-    // cy.get('[data-testid="blog-card"]').should('be.visible');
+    cy.url().should('include', '/homepage');
+    cy.wait(5000);
+    cy.get('[data-testid="blog-card"]').should('be.visible');
 
     // //homepage show blog detail
-    // cy.get('[data-testid="blog-card"]').first().click();
-    // cy.wait(5000);
-    // cy.url().should('include', '/detail');
-    // cy.go('back');
+    cy.get('[data-testid="blog-card"]').first().click();
+    cy.wait(5000);
+    cy.url().should('include', '/detail');
+    cy.go('back');
 
     //homepage show blog editor
     cy.get('[data-testid="open-blog-editor-button"]').should('be.visible').click();
@@ -41,7 +41,7 @@ describe('Homepage test', () => {
     cy.visit('/profile');
     cy.url().should('include', '/profile');
     cy.get('[data-testid="logout-button"]').click();
-    cy.get('[data-test="confirm-button"]').click();
+    cy.get('[data-testid="confirm-button"]').click();
     cy.url().should('include', '/login');
   })
 })

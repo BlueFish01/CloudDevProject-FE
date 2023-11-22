@@ -88,7 +88,7 @@ const ConfirmDialog = (props: IProps) => {
       <DialogActions sx={{ justifyContent: "center", px: 2, pb: 4, pt: 0 }}>
         <Stack sx={{ width: '100%' }} spacing={1} alignItems={'center'}>
           <Button
-            data-test="confirm-button"
+            data-testid="confirm-button"
             variant="contained"
             onClick={handleConfirm}
             sx={{
