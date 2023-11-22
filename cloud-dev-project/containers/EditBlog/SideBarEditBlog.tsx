@@ -8,13 +8,14 @@ import CopyURLButton from "@/containers/EditBlog/CopyURL";
 import BlogEditor from "@/containers/BlogEditor/blogEditor";
 import ConfirmDialog from "@/components/Dialog/confirmDialog";
 import Alert from "@/components/Alert/alert";
-
+import { useCookies } from "react-cookie";
 interface EditBlogProps {
     blogId: number | null;
     apidata : BlogResponseModel
   }
   
   export default function EditBlog({blogId, apidata}:EditBlogProps) {
+    const [cookie, setCookie, removeCookie] = useCookies(["authToken"]);
     const [openAlert, setOpenAlert] = useState(false);
     const [openErrorAlert, setOpenErrorAlert] = useState(false);
     const [openLeave, setOpenLeave] = useState(false);
@@ -28,7 +29,7 @@ interface EditBlogProps {
     const deleteBlogHandler = async () => {
       if(blogId){
         try {
-          const response = await deleteBlog(blogId);
+          const response = await deleteBlog(blogId, cookie.authToken);
           if(response.status_code === 200){
             console.log("Delete Blog success", response);
             setOpenAlert(true);

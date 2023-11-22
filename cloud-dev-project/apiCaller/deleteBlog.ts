@@ -1,11 +1,9 @@
 import axios, { AxiosRequestConfig } from 'axios';
 
-export default async function deleteBlog(blogId:number){
+export default async function deleteBlog(blogId:number,token:string){
     const url = process.env.NEXT_PUBLIC_API_URL+'/api/blog/delete-blog'
 
-    const authToken = await fetch('http://127.0.0.1:3000/api/auth');
-    const token = await authToken.json();
-    const Bearertoken = 'Bearer '+token.value;
+    const Bearertoken = 'Bearer '+token
 
     const data = {"blogId":blogId} 
 

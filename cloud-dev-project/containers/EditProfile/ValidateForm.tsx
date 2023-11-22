@@ -27,6 +27,7 @@ import { AxiosRequestConfig } from "axios";
 import axios from "axios";
 import editProfile from "@/apiCaller/editProfile";
 import ConfirmDialog from "@/components/Dialog/confirmDialog";
+import { useCookies } from "react-cookie";
 
 const style2 = {
   position: "absolute" as "absolute",
@@ -92,12 +93,13 @@ function ValidateForm({ initdata }: TValidFormProps) {
   const handleClose1 = () => setOpen1(false);
   const handleOpen2 = () => setOpen2(true);
   const handleClose2 = () => setOpen2(false);
+  const [cookies, setCookie, removeCookie] = useCookies(['authToken']);
 
   const [OpenConfirmEdit, setOpenConfirmEdit] = useState(false);
 
   const { data, isPending } = useQuery({
-    queryKey: ["getProfile"],
-    queryFn: () => getProfile(),
+    queryKey: ["getProfile", cookies.authToken],
+    queryFn: () => getProfile(cookies.authToken),
   });
   const { response }: { response: getProfileModel } = data || { response: {} };
 
@@ -136,7 +138,7 @@ function ValidateForm({ initdata }: TValidFormProps) {
     console.log("Edit Profile");
     try {
       if (editProfilePayload) {
-        const response = await editProfile(editProfilePayload);
+        const response = await editProfile(editProfilePayload,cookies.authToken);
         if (response.status === "success") {
           console.log("Success", response);
           refreshPage();
