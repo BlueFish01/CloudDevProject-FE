@@ -1,0 +1,42 @@
+version: 1
+applications:
+  - frontend:
+      phases:
+        preBuild:
+          commands:
+            - npm install -g pnpm
+            - pnpm install
+        build:
+          commands:
+            - pnpm run build
+      artifacts:
+        baseDirectory: .next
+        files:
+          - '**/*'
+      cache:
+        paths:
+          - node_modules/**/*
+    appRoot: cloud-dev-project
+    test:
+      artifacts:
+        baseDirectory: cypress
+        configFilePath: '**/mochawesome.json'
+        files:
+          - '**/*.png'
+          - '**/*.mp4'
+      phases:
+        preTest:
+          commands:
+            - pnpm install
+            - pnpm install wait-on
+            - pnpm install pm2
+            - pnpm install mocha@5.2.0 mochawesome mochawesome-merge mochawesome-report-generator
+            - npx pm2 start pnpm -- start
+            - 'npx wait-on http://localhost:3000'
+        test:
+          commands:
+            - 'npx cypress run --reporter mochawesome --reporter-options "reportDir=cypress/report/mochawesome-report,overwrite=false,html=false,json=true,timestamp=mmddyyyy_HHMMss"'
+        postTest:
+          commands:
+            - npx mochawesome-merge cypress/report/mochawesome-report/mochawesome*.json > cypress/report/mochawesome.json
+            - npx pm2 kill
